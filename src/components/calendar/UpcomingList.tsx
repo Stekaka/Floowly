@@ -39,9 +39,9 @@ export const UpcomingList = memo(function UpcomingList({
     tomorrow.setDate(tomorrow.getDate() + 1)
     
     if (date.toDateString() === today.toDateString()) {
-      return 'Today'
+      return 'Idag'
     } else if (date.toDateString() === tomorrow.toDateString()) {
-      return 'Tomorrow'
+      return 'Imorgon'
     } else {
       return date.toLocaleDateString('sv-SE', {
         weekday: 'short',
@@ -66,7 +66,7 @@ export const UpcomingList = memo(function UpcomingList({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CalendarIcon className="w-5 h-5" />
-            Upcoming Jobs
+            Kommande jobb
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -86,7 +86,7 @@ export const UpcomingList = memo(function UpcomingList({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CalendarIcon className="w-5 h-5" />
-            Upcoming Jobs
+            Kommande jobb
           </CardTitle>
         </CardHeader>
         <CardContent>

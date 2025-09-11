@@ -181,7 +181,7 @@ export function JobDialog({
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>
-              {isEditing ? (job ? 'Edit Job' : 'Create Job') : 'Job Details'}
+              {isEditing ? (job ? 'Redigera jobb' : 'Skapa jobb') : 'Jobbuppgifter'}
             </CardTitle>
             <div className="flex items-center gap-2">
               {!isEditing && job && (
@@ -191,14 +191,14 @@ export function JobDialog({
                     size="sm"
                     onClick={() => setIsEditing(true)}
                   >
-                    Edit
+                    Redigera
                   </Button>
                   {onMarkCompleted && job.status !== 'completed' && (
                     <Button
                       size="sm"
                       onClick={() => onMarkCompleted(job.id)}
                     >
-                      Mark Completed
+                      Markera som slutförd
                     </Button>
                   )}
                   {onDelete && (
@@ -207,7 +207,7 @@ export function JobDialog({
                       size="sm"
                       onClick={() => onDelete(job.id)}
                     >
-                      Delete
+                      Ta bort
                     </Button>
                   )}
                 </>
@@ -227,36 +227,36 @@ export function JobDialog({
               <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
                 {/* Customer Selection */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Customer</h3>
+                  <h3 className="text-lg font-semibold">Kund</h3>
                   
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label>Customer Type</Label>
+                      <Label>Kundtyp</Label>
                       <Select
                         value={showNewCustomer ? "new" : "existing"}
                         onValueChange={handleCustomerTypeChange}
                         disabled={isLoading}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select customer type" />
+                          <SelectValue placeholder="Välj kundtyp" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="existing">Existing Customer</SelectItem>
-                          <SelectItem value="new">New Customer</SelectItem>
+                          <SelectItem value="existing">Befintlig kund</SelectItem>
+                          <SelectItem value="new">Ny kund</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     {!showNewCustomer ? (
                       <div className="space-y-2">
-                        <Label htmlFor="customerId">Select Customer *</Label>
+                        <Label htmlFor="customerId">Välj kund *</Label>
                         <Select
                           value={watchedValues.customerId}
                           onValueChange={(value) => setValue("customerId", value)}
                           disabled={isLoading}
                         >
                           <SelectTrigger>
-                            <SelectValue placeholder="Choose a customer" />
+                            <SelectValue placeholder="Välj en kund" />
                           </SelectTrigger>
                           <SelectContent>
                             {customers.map((customer) => (
@@ -282,17 +282,17 @@ export function JobDialog({
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center gap-2 text-lg">
                             <Plus className="w-5 h-5" />
-                            New Customer Information
+                            Ny kundinformation
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor="customerName">Name *</Label>
+                              <Label htmlFor="customerName">Namn *</Label>
                               <Input
                                 id="customerName"
                                 {...register("customerData.name")}
-                                placeholder="Customer name"
+                                placeholder="Kundens namn"
                                 disabled={isLoading}
                               />
                               {errors.customerData?.name && (
@@ -301,11 +301,11 @@ export function JobDialog({
                             </div>
 
                             <div className="space-y-2">
-                              <Label htmlFor="customerCompany">Company</Label>
+                              <Label htmlFor="customerCompany">Företag</Label>
                               <Input
                                 id="customerCompany"
                                 {...register("customerData.company")}
-                                placeholder="Company name"
+                                placeholder="Företagsnamn"
                                 disabled={isLoading}
                               />
                             </div>
@@ -313,11 +313,11 @@ export function JobDialog({
 
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor="customerPhone">Phone *</Label>
+                              <Label htmlFor="customerPhone">Telefon *</Label>
                               <Input
                                 id="customerPhone"
                                 {...register("customerData.phone")}
-                                placeholder="Phone number"
+                                placeholder="Telefonnummer"
                                 disabled={isLoading}
                               />
                               {errors.customerData?.phone && (
@@ -326,12 +326,12 @@ export function JobDialog({
                             </div>
 
                             <div className="space-y-2">
-                              <Label htmlFor="customerEmail">Email</Label>
+                              <Label htmlFor="customerEmail">E-post</Label>
                               <Input
                                 id="customerEmail"
                                 type="email"
                                 {...register("customerData.email")}
-                                placeholder="Email address"
+                                placeholder="E-postadress"
                                 disabled={isLoading}
                               />
                               {errors.customerData?.email && (
@@ -341,42 +341,42 @@ export function JobDialog({
                           </div>
 
                           <div className="space-y-2">
-                            <Label htmlFor="customerStreet">Address</Label>
+                            <Label htmlFor="customerStreet">Adress</Label>
                             <Input
                               id="customerStreet"
                               {...register("customerData.address.street")}
-                              placeholder="Street address"
+                              placeholder="Gatuadress"
                               disabled={isLoading}
                             />
                           </div>
 
                           <div className="grid grid-cols-3 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor="customerCity">City</Label>
+                              <Label htmlFor="customerCity">Stad</Label>
                               <Input
                                 id="customerCity"
                                 {...register("customerData.address.city")}
-                                placeholder="City"
+                                placeholder="Stad"
                                 disabled={isLoading}
                               />
                             </div>
 
                             <div className="space-y-2">
-                              <Label htmlFor="customerPostalCode">Postal Code</Label>
+                              <Label htmlFor="customerPostalCode">Postnummer</Label>
                               <Input
                                 id="customerPostalCode"
                                 {...register("customerData.address.postalCode")}
-                                placeholder="Postal code"
+                                placeholder="Postnummer"
                                 disabled={isLoading}
                               />
                             </div>
 
                             <div className="space-y-2">
-                              <Label htmlFor="customerCountry">Country</Label>
+                              <Label htmlFor="customerCountry">Land</Label>
                               <Input
                                 id="customerCountry"
                                 {...register("customerData.address.country")}
-                                placeholder="Country"
+                                placeholder="Land"
                                 disabled={isLoading}
                               />
                             </div>
@@ -393,7 +393,7 @@ export function JobDialog({
                             />
                             <Label htmlFor="saveCustomer" className="flex items-center gap-2">
                               <Save className="w-4 h-4" />
-                              Save this customer for future jobs
+                              Spara denna kund för framtida jobb
                             </Label>
                           </div>
                         </CardContent>
@@ -404,14 +404,14 @@ export function JobDialog({
 
                 {/* Basic Information */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Job Information</h3>
+                  <h3 className="text-lg font-semibold">Jobbinformation</h3>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="title">Job Title *</Label>
+                    <Label htmlFor="title">Jobbtitel *</Label>
                     <Input
                       id="title"
                       {...register("title")}
-                      placeholder="Enter job title"
+                      placeholder="Ange jobbtitel"
                       disabled={isLoading}
                     />
                     {errors.title && (
@@ -420,11 +420,11 @@ export function JobDialog({
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
+                    <Label htmlFor="description">Beskrivning</Label>
                     <Textarea
                       id="description"
                       {...register("description")}
-                      placeholder="Enter job description"
+                      placeholder="Ange jobbbeskrivning"
                       rows={3}
                       disabled={isLoading}
                     />
@@ -433,11 +433,11 @@ export function JobDialog({
 
                 {/* Schedule */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Schedule</h3>
+                  <h3 className="text-lg font-semibold">Schema</h3>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="startDate">Start Date *</Label>
+                      <Label htmlFor="startDate">Startdatum *</Label>
                       <Input
                         id="startDate"
                         type="date"
@@ -450,7 +450,7 @@ export function JobDialog({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="endDate">End Date *</Label>
+                      <Label htmlFor="endDate">Slutdatum *</Label>
                       <Input
                         id="endDate"
                         type="date"
@@ -465,7 +465,7 @@ export function JobDialog({
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="startTime">Start Time</Label>
+                      <Label htmlFor="startTime">Starttid</Label>
                       <Input
                         id="startTime"
                         type="time"
@@ -475,7 +475,7 @@ export function JobDialog({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="endTime">End Time</Label>
+                      <Label htmlFor="endTime">Sluttid</Label>
                       <Input
                         id="endTime"
                         type="time"
@@ -488,11 +488,11 @@ export function JobDialog({
 
                 {/* Pricing */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Pricing</h3>
+                  <h3 className="text-lg font-semibold">Priser</h3>
                   
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="hours">Hours</Label>
+                      <Label htmlFor="hours">Timmar</Label>
                       <Input
                         id="hours"
                         type="number"
@@ -504,7 +504,7 @@ export function JobDialog({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="materialCost">Material Cost (SEK)</Label>
+                      <Label htmlFor="materialCost">Materialkostnad (SEK)</Label>
                       <Input
                         id="materialCost"
                         type="number"
@@ -516,7 +516,7 @@ export function JobDialog({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="quotedPrice">Quoted Price (SEK)</Label>
+                      <Label htmlFor="quotedPrice">Offeratpris (SEK)</Label>
                       <Input
                         id="quotedPrice"
                         type="number"
@@ -531,17 +531,17 @@ export function JobDialog({
 
                 {/* Quote Selection */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Quote (Optional)</h3>
+                  <h3 className="text-lg font-semibold">Offert (Valfritt)</h3>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="quoteId">Select Quote</Label>
+                    <Label htmlFor="quoteId">Välj offert</Label>
                     <Select
                       value={watchedValues.quoteId}
                       onValueChange={(value) => setValue("quoteId", value)}
                       disabled={isLoading}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Choose a quote" />
+                        <SelectValue placeholder="Välj en offert" />
                       </SelectTrigger>
                       <SelectContent>
                         {quotes
@@ -563,7 +563,7 @@ export function JobDialog({
 
                 {/* Status and Notes */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Status & Notes</h3>
+                  <h3 className="text-lg font-semibold">Status & Anteckningar</h3>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -577,17 +577,17 @@ export function JobDialog({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="confirmed">Confirmed</SelectItem>
-                          <SelectItem value="in_progress">In Progress</SelectItem>
-                          <SelectItem value="completed">Completed</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
+                          <SelectItem value="pending">Väntande</SelectItem>
+                          <SelectItem value="confirmed">Bekräftad</SelectItem>
+                          <SelectItem value="in_progress">Pågående</SelectItem>
+                          <SelectItem value="completed">Slutförd</SelectItem>
+                          <SelectItem value="cancelled">Inställd</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="timezone">Timezone</Label>
+                      <Label htmlFor="timezone">Tidszon</Label>
                       <Select
                         value={watchedValues.timezone}
                         onValueChange={(value) => setValue("timezone", value)}
@@ -606,11 +606,11 @@ export function JobDialog({
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="notes">Notes</Label>
+                    <Label htmlFor="notes">Anteckningar</Label>
                     <Textarea
                       id="notes"
                       {...register("notes")}
-                      placeholder="Add any additional notes"
+                      placeholder="Lägg till ytterligare anteckningar"
                       rows={3}
                       disabled={isLoading}
                     />
@@ -625,13 +625,13 @@ export function JobDialog({
                     onClick={handleClose}
                     disabled={isLoading}
                   >
-                    Cancel
+                    Avbryt
                   </Button>
                   <Button
                     type="submit"
                     disabled={isLoading}
                   >
-                    {isLoading ? 'Saving...' : (job ? 'Update Job' : 'Create Job')}
+                    {isLoading ? 'Sparar...' : (job ? 'Uppdatera jobb' : 'Skapa jobb')}
                   </Button>
                 </div>
               </form>

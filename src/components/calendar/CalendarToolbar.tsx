@@ -51,9 +51,9 @@ export function CalendarToolbar({
 
   const getViewLabel = (viewType: CalendarView) => {
     switch (viewType) {
-      case 'month': return 'Month'
-      case 'week': return 'Week'
-      case 'day': return 'Day'
+      case 'month': return 'Månad'
+      case 'week': return 'Vecka'
+      case 'day': return 'Dag'
     }
   }
 
@@ -86,7 +86,7 @@ export function CalendarToolbar({
           className="h-8 px-3"
         >
           <Clock className="w-4 h-4 mr-1" />
-          Today
+          Idag
         </Button>
         
         <div className="ml-4">
@@ -115,7 +115,7 @@ export function CalendarToolbar({
         {jobCount > 0 && (
           <Badge variant="secondary" className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            {jobCount} jobs
+            {jobCount} jobb
           </Badge>
         )}
         
@@ -125,7 +125,7 @@ export function CalendarToolbar({
           className="h-8"
         >
           <Plus className="w-4 h-4 mr-1" />
-          New Job
+          Nytt jobb
         </Button>
       </div>
     </div>

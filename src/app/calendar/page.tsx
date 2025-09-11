@@ -237,7 +237,7 @@ export default function CalendarPage() {
   }, [isCreatingJob, selectedJob, createJobDate, createMutation, updateMutation])
 
   const handleDeleteJob = useCallback((jobId: string) => {
-    if (confirm("Are you sure you want to delete this job?")) {
+    if (confirm("Är du säker på att du vill ta bort detta jobb?")) {
       deleteMutation.mutate(jobId)
     }
   }, [deleteMutation])
@@ -280,7 +280,7 @@ export default function CalendarPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-slate-400 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-300">Loading calendar...</p>
+          <p className="text-slate-300">Laddar kalender...</p>
         </div>
       </div>
     )
@@ -296,8 +296,8 @@ export default function CalendarPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Job Calendar</h1>
-            <p className="text-slate-300">Schedule and manage your wrapping jobs</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Jobbkalender</h1>
+            <p className="text-slate-300">Schemalägg och hantera dina wrap-jobb</p>
           </div>
         </div>
 
@@ -306,19 +306,19 @@ export default function CalendarPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div className="card text-center">
               <div className="text-2xl font-bold text-white mb-1">{stats.total}</div>
-              <div className="text-slate-400 text-sm">Total Jobs</div>
+              <div className="text-slate-400 text-sm">Totalt antal jobb</div>
             </div>
             <div className="card text-center">
               <div className="text-2xl font-bold text-white mb-1">{stats.pending}</div>
-              <div className="text-slate-400 text-sm">Pending</div>
+              <div className="text-slate-400 text-sm">Väntande</div>
             </div>
             <div className="card text-center">
               <div className="text-2xl font-bold text-white mb-1">{stats.inProgress}</div>
-              <div className="text-slate-400 text-sm">In Progress</div>
+              <div className="text-slate-400 text-sm">Pågående</div>
             </div>
             <div className="card text-center">
               <div className="text-2xl font-bold text-white mb-1">{stats.completed}</div>
-              <div className="text-slate-400 text-sm">Completed</div>
+              <div className="text-slate-400 text-sm">Slutförda</div>
             </div>
           </div>
         )}
