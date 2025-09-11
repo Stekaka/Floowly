@@ -4,6 +4,18 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
+  // Create default company
+  const defaultCompany = await prisma.company.upsert({
+    where: { name: 'Default Company' },
+    update: {},
+    create: {
+      name: 'Default Company',
+      plan: 'professional',
+      maxUsers: 50,
+    },
+  });
+  console.log('Default company created:', defaultCompany);
+
   // Create admin user
   const hashedPassword = await bcrypt.hash('admin123', 12);
   
@@ -16,6 +28,7 @@ async function main() {
       name: 'Admin User',
       role: 'admin',
       status: 'active',
+      companyId: defaultCompany.id,
     },
   });
 

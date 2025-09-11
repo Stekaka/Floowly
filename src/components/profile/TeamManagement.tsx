@@ -14,6 +14,7 @@ import { userApi } from "@/lib/api/users"
 import { User, CreateUserPayload, UserRole, UserStatus } from "@/types/user"
 import { Search, Edit, Trash2, UserPlus, Mail, Phone, Building } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useSession } from "next-auth/react"
 
 export function TeamManagement() {
   const { toast } = useToast()
@@ -22,24 +23,20 @@ export function TeamManagement() {
   const [showInviteDialog, setShowInviteDialog] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
 
-  // Mock current user (in real app, this would come from auth context)
-  const currentUser = {
-    id: 'user_1',
-    companyId: 'company_1',
-    role: 'admin' as UserRole,
-  }
+  const { data: session } = useSession()
+  const currentUser = session?.user
 
   // Fetch users
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ['users', currentUser.companyId],
-    queryFn: () => userApi.getUsers(currentUser.companyId),
+    queryKey: ['users'],
+    queryFn: () => userApi.getUsers(),
+    enabled: !!currentUser,
   })
 
   // Filter users based on search
   const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.department?.toLowerCase().includes(searchTerm.toLowerCase())
+    user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   // Create user mutation
@@ -107,9 +104,7 @@ export function TeamManagement() {
       email: formData.get('email') as string,
       name: formData.get('name') as string,
       role: formData.get('role') as UserRole,
-      companyId: currentUser.companyId,
       phone: formData.get('phone') as string || undefined,
-      department: formData.get('department') as string || undefined,
     }
 
     createUserMutation.mutate(payload)
@@ -121,7 +116,6 @@ export function TeamManagement() {
       role: formData.get('role') as UserRole,
       status: formData.get('status') as UserStatus,
       phone: formData.get('phone') as string || undefined,
-      department: formData.get('department') as string || undefined,
     }
 
     updateUserMutation.mutate({ userId, payload })
@@ -213,10 +207,6 @@ export function TeamManagement() {
                   <Input id="phone" name="phone" />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="department">Department</Label>
-                <Input id="department" name="department" />
-              </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setShowInviteDialog(false)}>
                   Cancel
@@ -257,7 +247,6 @@ export function TeamManagement() {
                 <TableHead>User</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Department</TableHead>
                 <TableHead>Last Login</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -269,11 +258,11 @@ export function TeamManagement() {
                     <div className="flex items-center space-x-3">
                       <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                         <span className="text-sm font-medium">
-                          {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                          {(user.name || user.email).split(' ').map(n => n[0]).join('').toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <div className="font-medium">{user.name}</div>
+                        <div className="font-medium">{user.name || user.email}</div>
                         <div className="text-sm text-muted-foreground">{user.email}</div>
                       </div>
                     </div>
@@ -288,7 +277,7 @@ export function TeamManagement() {
                       {userApi.getStatusDisplayName(user.status)}
                     </Badge>
                   </TableCell>
-                  <TableCell>{user.department || '-'}</TableCell>
+                  <TableCell>-</TableCell>
                   <TableCell>
                     {user.lastLoginAt
                       ? new Date(user.lastLoginAt).toLocaleDateString('sv-SE')
@@ -304,7 +293,7 @@ export function TeamManagement() {
                       >
                         <Edit className="w-4 h-4" />
                       </Button>
-                      {user.id !== currentUser.id && (
+                      {user.id !== currentUser?.id && (
                         <Button
                           size="sm"
                           variant="ghost"
@@ -333,7 +322,7 @@ export function TeamManagement() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="edit-name">Name *</Label>
-                  <Input id="edit-name" name="name" defaultValue={editingUser.name} required />
+                  <Input id="edit-name" name="name" defaultValue={editingUser.name || ''} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="edit-email">Email</Label>
@@ -373,10 +362,6 @@ export function TeamManagement() {
                 <div className="space-y-2">
                   <Label htmlFor="edit-phone">Phone</Label>
                   <Input id="edit-phone" name="phone" defaultValue={editingUser.phone || ''} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="edit-department">Department</Label>
-                  <Input id="edit-department" name="department" defaultValue={editingUser.department || ''} />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">

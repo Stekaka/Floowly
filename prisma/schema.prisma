@@ -10,22 +10,37 @@ datasource db {
  url      = env("DATABASE_URL")
 }
 
-model User {
- id        String   @id @default(uuid())
- email     String   @unique
- password  String
- name      String?
- fullName  String?
- phone     String?
- companyName String?
- avatar    String?
- role      String   @default("user")
- status    String   @default("active")
- companyId String?
- createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
+model Company {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  domain    String?
+  plan      String   @default("professional")
+  maxUsers  Int      @default(50)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
- @@map("users")
+  users User[]
+
+  @@map("companies")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  fullName  String?
+  phone     String?
+  avatar    String?
+  role      String   @default("user")
+  status    String   @default("active")
+  companyId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@map("users")
 }
 
 model Customer {

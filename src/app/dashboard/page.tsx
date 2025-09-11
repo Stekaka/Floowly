@@ -42,8 +42,9 @@ export default function DashboardPage() {
 
   // Fetch team data
   const { data: teamUsers = [] } = useQuery({
-    queryKey: ['users', 'company_1'],
-    queryFn: () => userApi.getUsers('company_1'),
+    queryKey: ['users'],
+    queryFn: () => userApi.getUsers(),
+    enabled: status === "authenticated",
   });
 
   const fetchDashboardData = async () => {

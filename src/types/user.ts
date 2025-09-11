@@ -38,9 +38,8 @@ export interface CreateUserPayload {
   email: string
   name: string
   role: UserRole
-  companyId: string
+  companyId?: string
   phone?: string
-  department?: string
 }
 
 export interface UpdateUserPayload {
