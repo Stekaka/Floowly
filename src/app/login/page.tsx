@@ -39,7 +39,36 @@ export default function LoginPage() {
     setError('');
 
     try {
-      setError('Registration is temporarily disabled. Please use admin@floowly.com / admin123 to login.');
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Registration successful, now sign in
+        const result = await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+        });
+        
+        if (result?.error) {
+          setError('Registration successful but login failed. Please try logging in manually.');
+        } else {
+          router.push('/dashboard');
+        }
+      } else {
+        setError(data.error || 'Registration failed');
+      }
     } catch (err) {
       setError('Something went wrong');
     } finally {
