@@ -60,9 +60,9 @@ export function CustomersTable({
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'active': return 'Active'
-      case 'inactive': return 'Inactive'
-      case 'prospect': return 'Prospect'
+      case 'active': return 'Aktiv'
+      case 'inactive': return 'Inaktiv'
+      case 'prospect': return 'Prospekt'
       default: return status
     }
   }
@@ -82,7 +82,7 @@ export function CustomersTable({
       <div className="text-center py-12">
         <div className="text-muted-foreground mb-4">
           <Building className="w-12 h-12 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold">No customers found</h3>
+          <h3 className="text-lg font-semibold">Inga kunder hittades</h3>
           <p className="text-sm">Try adjusting your search or filters</p>
         </div>
       </div>
@@ -94,12 +94,12 @@ export function CustomersTable({
       <Table>
         <TableHeader className="sticky top-0 bg-background z-10">
           <TableRow>
-            <TableHead className="w-[200px]">Customer</TableHead>
-            <TableHead className="w-[150px]">Contact</TableHead>
+            <TableHead className="w-[200px]">Kund</TableHead>
+            <TableHead className="w-[150px]">Kontakt</TableHead>
             <TableHead className="w-[100px]">Status</TableHead>
-            <TableHead className="w-[120px]">Tags</TableHead>
-            <TableHead className="w-[100px]">Stats</TableHead>
-            <TableHead className="w-[200px]">Actions</TableHead>
+            <TableHead className="w-[120px]">Taggar</TableHead>
+            <TableHead className="w-[100px]">Statistik</TableHead>
+            <TableHead className="w-[200px]">Åtgärder</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

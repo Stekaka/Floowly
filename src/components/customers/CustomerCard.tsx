@@ -51,9 +51,9 @@ export function CustomerCard({
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'active': return 'Active'
-      case 'inactive': return 'Inactive'
-      case 'prospect': return 'Prospect'
+      case 'active': return 'Aktiv'
+      case 'inactive': return 'Inaktiv'
+      case 'prospect': return 'Prospekt'
       default: return status
     }
   }
@@ -94,7 +94,7 @@ export function CustomerCard({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>More actions</p>
+                  <p>Fler åtgärder</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -147,19 +147,19 @@ export function CustomerCard({
             <div className="text-lg font-semibold text-primary">
               {customer.quotes.length}
             </div>
-            <div className="text-xs text-muted-foreground">Quotes</div>
+            <div className="text-xs text-muted-foreground">Offerter</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-semibold text-primary">
               {customer.orders.length}
             </div>
-            <div className="text-xs text-muted-foreground">Orders</div>
+            <div className="text-xs text-muted-foreground">Beställningar</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-semibold text-primary">
               {customer.notes.length}
             </div>
-            <div className="text-xs text-muted-foreground">Notes</div>
+            <div className="text-xs text-muted-foreground">Anteckningar</div>
           </div>
         </div>
 
@@ -175,11 +175,11 @@ export function CustomerCard({
                   className="flex-1 h-8"
                 >
                   <Edit className="w-3 h-3 mr-1" />
-                  Edit
+                  Redigera
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Edit customer</p>
+                <p>Redigera kund</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -194,11 +194,11 @@ export function CustomerCard({
                   className="flex-1 h-8"
                 >
                   <FileText className="w-3 h-3 mr-1" />
-                  Quote
+                  Offert
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Create new quote</p>
+                <p>Skapa ny offert</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -213,11 +213,11 @@ export function CustomerCard({
                   className="flex-1 h-8"
                 >
                   <ShoppingCart className="w-3 h-3 mr-1" />
-                  Order
+                  Beställning
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Create new order</p>
+                <p>Skapa ny beställning</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -232,11 +232,11 @@ export function CustomerCard({
                   className="flex-1 h-8"
                 >
                   <StickyNote className="w-3 h-3 mr-1" />
-                  Note
+                  Anteckning
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Add note</p>
+                <p>Lägg till anteckning</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

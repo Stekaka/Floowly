@@ -82,14 +82,14 @@ export default function CustomersPage() {
       queryClient.invalidateQueries({ queryKey: ["customer-stats"] })
       setShowForm(false)
       toast({
-        title: "Customer created",
-        description: "Customer has been created successfully.",
+        title: "Kund skapad",
+        description: "Kunden har skapats framgångsrikt.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create customer",
+        title: "Fel",
+        description: error.message || "Misslyckades att skapa kund",
         variant: "destructive",
       })
     },
@@ -224,15 +224,15 @@ export default function CustomersPage() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Customer Management</h1>
-            <p className="text-slate-300">Manage your customer database and relationships</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Kundhantering</h1>
+            <p className="text-slate-300">Hantera din kunddatabas och relationer</p>
           </div>
           <Button 
             onClick={() => setShowForm(true)} 
             className="px-4 py-2"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add Customer
+            Lägg till kund
           </Button>
         </div>
 
@@ -244,7 +244,7 @@ export default function CustomersPage() {
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-blue-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Total Customers</p>
+                    <p className="text-sm font-medium text-muted-foreground">Totalt antal kunder</p>
                     <p className="text-2xl font-bold">{stats.total}</p>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ export default function CustomersPage() {
                 <div className="flex items-center">
                   <Building2 className="h-8 w-8 text-green-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Active</p>
+                    <p className="text-sm font-medium text-muted-foreground">Aktiva</p>
                     <p className="text-2xl font-bold">{stats.active}</p>
                   </div>
                 </div>
@@ -266,7 +266,7 @@ export default function CustomersPage() {
                 <div className="flex items-center">
                   <FileText className="h-8 w-8 text-purple-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Total Quotes</p>
+                    <p className="text-sm font-medium text-muted-foreground">Totalt antal offerter</p>
                     <p className="text-2xl font-bold">{stats.totalQuotes}</p>
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export default function CustomersPage() {
                 <div className="flex items-center">
                   <TrendingUp className="h-8 w-8 text-orange-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
+                    <p className="text-sm font-medium text-muted-foreground">Total omsättning</p>
                     <p className="text-2xl font-bold">{stats.totalRevenue.toLocaleString()} SEK</p>
                   </div>
                 </div>
@@ -294,7 +294,7 @@ export default function CustomersPage() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search customers by name, company, email, or phone..."
+                    placeholder="Sök kunder efter namn, företag, e-post eller telefon..."
                     value={filters.search}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     className="pl-10"
@@ -313,10 +313,10 @@ export default function CustomersPage() {
                     <SelectValue placeholder="Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                    <SelectItem value="prospect">Prospect</SelectItem>
+                    <SelectItem value="all">Alla statusar</SelectItem>
+                    <SelectItem value="active">Aktiv</SelectItem>
+                    <SelectItem value="inactive">Inaktiv</SelectItem>
+                    <SelectItem value="prospect">Prospekt</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -337,16 +337,16 @@ export default function CustomersPage() {
           <Card>
             <CardContent className="p-12 text-center">
               <Building2 className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-xl font-semibold mb-2">No customers found</h3>
+              <h3 className="text-xl font-semibold mb-2">Inga kunder hittades</h3>
               <p className="text-muted-foreground mb-6">
                 {filters.search || filters.status.length > 0 
-                  ? "Try adjusting your search or filters" 
-                  : "Get started by adding your first customer"
+                  ? "Försök justera din sökning eller filter" 
+                  : "Kom igång genom att lägga till din första kund"
                 }
               </p>
               <Button onClick={() => setShowForm(true)}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add Your First Customer
+                Lägg till din första kund
               </Button>
             </CardContent>
           </Card>

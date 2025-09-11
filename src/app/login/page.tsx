@@ -25,7 +25,7 @@ export default function LoginPage() {
     });
     
     if (result?.error) {
-      setError('Invalid credentials');
+      setError('Ogiltiga inloggningsuppgifter');
     } else {
       router.push('/dashboard');
     }
@@ -62,15 +62,15 @@ export default function LoginPage() {
         });
         
         if (result?.error) {
-          setError('Registration successful but login failed. Please try logging in manually.');
+          setError('Registrering lyckades men inloggning misslyckades. Försök logga in manuellt.');
         } else {
           router.push('/dashboard');
         }
       } else {
-        setError(data.error || 'Registration failed');
+        setError(data.error || 'Registrering misslyckades');
       }
     } catch (err) {
-      setError('Something went wrong');
+      setError('Något gick fel');
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +89,7 @@ export default function LoginPage() {
             </div>
             <h1 className="text-2xl font-bold text-white">Floowly</h1>
           </div>
-          <p className="text-slate-300">Premium Workflow Management System</p>
+          <p className="text-slate-300">Premium Arbetsflödeshanteringssystem</p>
         </div>
 
         {/* Auth Card */}
@@ -103,7 +103,7 @@ export default function LoginPage() {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Sign In
+              Logga in
             </button>
             <button
               onClick={() => setIsRegistering(true)}
@@ -113,7 +113,7 @@ export default function LoginPage() {
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              Register
+              Registrera
             </button>
           </div>
 
@@ -121,42 +121,42 @@ export default function LoginPage() {
             {isRegistering && (
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Full Name
+                  Fullständigt namn
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="input w-full"
-                  placeholder="Enter your full name"
+                  placeholder="Ange ditt fullständiga namn"
                 />
               </div>
             )}
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Email Address
+                E-postadress
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="input w-full"
-                placeholder="Enter your email"
+                placeholder="Ange din e-post"
                 required
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Password
+                Lösenord
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input w-full"
-                placeholder="Enter your password"
+                placeholder="Ange ditt lösenord"
                 required
               />
             </div>
@@ -172,18 +172,18 @@ export default function LoginPage() {
               disabled={isLoading}
               className="w-full btn-primary py-3 disabled:opacity-50"
             >
-              {isLoading ? 'Processing...' : (isRegistering ? 'Create Account' : 'Sign In')}
+              {isLoading ? 'Bearbetar...' : (isRegistering ? 'Skapa konto' : 'Logga in')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-slate-400 text-sm">
-              {isRegistering ? 'Already have an account?' : "Don't have an account?"}{' '}
+              {isRegistering ? 'Har du redan ett konto?' : 'Har du inget konto?'}{' '}
               <button
                 onClick={() => setIsRegistering(!isRegistering)}
                 className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
               >
-                {isRegistering ? 'Sign In' : 'Register'}
+                {isRegistering ? 'Logga in' : 'Registrera'}
               </button>
             </p>
           </div>
@@ -191,8 +191,8 @@ export default function LoginPage() {
 
         {/* Demo Info */}
         <div className="mt-6 glass rounded-lg p-4 text-center">
-          <h3 className="text-slate-300 font-medium mb-1">Demo Login</h3>
-          <p className="text-slate-400 text-sm">Email: admin@floowly.com | Password: admin123</p>
+          <h3 className="text-slate-300 font-medium mb-1">Demo-inloggning</h3>
+          <p className="text-slate-400 text-sm">E-post: admin@floowly.com | Lösenord: admin123</p>
         </div>
       </div>
     </div>

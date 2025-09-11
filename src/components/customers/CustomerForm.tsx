@@ -80,15 +80,15 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       {/* Basic Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Basic Information</h3>
+        <h3 className="text-lg font-semibold">Grundläggande information</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name *</Label>
+            <Label htmlFor="name">Namn *</Label>
             <Input
               id="name"
               {...register("name")}
-              placeholder="Enter customer name"
+              placeholder="Ange kundens namn"
               disabled={isLoading}
               aria-invalid={!!errors.name}
               aria-describedby={errors.name ? "name-error" : undefined}
@@ -101,11 +101,11 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="company">Company</Label>
+            <Label htmlFor="company">Företag</Label>
             <Input
               id="company"
               {...register("company")}
-              placeholder="Enter company name"
+              placeholder="Ange företagsnamn"
               disabled={isLoading}
               aria-invalid={!!errors.company}
               aria-describedby={errors.company ? "company-error" : undefined}
@@ -120,12 +120,12 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">E-post</Label>
             <Input
               id="email"
               type="email"
               {...register("email")}
-              placeholder="Enter email address"
+              placeholder="Ange e-postadress"
               disabled={isLoading}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
@@ -138,11 +138,11 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone *</Label>
+            <Label htmlFor="phone">Telefon *</Label>
             <Input
               id="phone"
               {...register("phone")}
-              placeholder="Enter phone number"
+              placeholder="Ange telefonnummer"
               disabled={isLoading}
               aria-invalid={!!errors.phone}
               aria-describedby={errors.phone ? "phone-error" : undefined}
@@ -163,12 +163,12 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
             disabled={isLoading}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select status" />
+              <SelectValue placeholder="Välj status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="active">Active</SelectItem>
-              <SelectItem value="inactive">Inactive</SelectItem>
-              <SelectItem value="prospect">Prospect</SelectItem>
+              <SelectItem value="active">Aktiv</SelectItem>
+              <SelectItem value="inactive">Inaktiv</SelectItem>
+              <SelectItem value="prospect">Prospekt</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -176,45 +176,45 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
 
       {/* Address */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Address</h3>
+        <h3 className="text-lg font-semibold">Adress</h3>
         
         <div className="space-y-2">
-          <Label htmlFor="street">Street</Label>
+          <Label htmlFor="street">Gata</Label>
           <Input
             id="street"
             {...register("address.street")}
-            placeholder="Enter street address"
+            placeholder="Ange gatuadress"
             disabled={isLoading}
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="city">City</Label>
+            <Label htmlFor="city">Stad</Label>
             <Input
               id="city"
               {...register("address.city")}
-              placeholder="Enter city"
+              placeholder="Ange stad"
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="postalCode">Postal Code</Label>
+            <Label htmlFor="postalCode">Postnummer</Label>
             <Input
               id="postalCode"
               {...register("address.postalCode")}
-              placeholder="Enter postal code"
+              placeholder="Ange postnummer"
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="country">Country</Label>
+            <Label htmlFor="country">Land</Label>
             <Input
               id="country"
               {...register("address.country")}
-              placeholder="Enter country"
+              placeholder="Ange land"
               disabled={isLoading}
             />
           </div>
@@ -223,7 +223,7 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
 
       {/* Tags */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Tags</h3>
+        <h3 className="text-lg font-semibold">Taggar</h3>
         
         <div className="space-y-2">
           <div className="flex gap-2">
@@ -231,7 +231,7 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Add a tag"
+              placeholder="Lägg till en tagg"
               disabled={isLoading}
             />
             <Button
@@ -272,13 +272,13 @@ export function CustomerForm({ customer, onSubmit, onCancel, isLoading }: Custom
           onClick={onCancel}
           disabled={isLoading}
         >
-          Cancel
+          Avbryt
         </Button>
         <Button
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? "Saving..." : customer ? "Update Customer" : "Create Customer"}
+          {isLoading ? "Sparar..." : customer ? "Uppdatera kund" : "Skapa kund"}
         </Button>
       </div>
     </form>

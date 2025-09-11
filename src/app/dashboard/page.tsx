@@ -88,7 +88,7 @@ export default function DashboardPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-slate-400 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-300">Loading...</p>
+          <p className="text-slate-300">Laddar...</p>
         </div>
       </div>
     );
@@ -103,8 +103,8 @@ export default function DashboardPage() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Dashboard</h1>
-          <p className="text-slate-300">Welcome back, {session?.user?.name || 'User'}</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Översikt</h1>
+          <p className="text-slate-300">Välkommen tillbaka, {session?.user?.name || 'Användare'}</p>
         </div>
 
         {/* Stats Grid */}
@@ -112,7 +112,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Total Customers</p>
+                <p className="text-slate-400 text-sm font-medium">Totalt antal kunder</p>
                 <p className="text-2xl font-bold text-white mt-1">{stats.totalCustomers}</p>
               </div>
               <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -126,7 +126,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Total Quotes</p>
+                <p className="text-slate-400 text-sm font-medium">Totalt antal offerter</p>
                 <p className="text-2xl font-bold text-white mt-1">{stats.totalQuotes}</p>
               </div>
               <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
@@ -140,7 +140,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Active Jobs</p>
+                <p className="text-slate-400 text-sm font-medium">Aktiva jobb</p>
                 <p className="text-2xl font-bold text-white mt-1">{stats.totalJobs}</p>
               </div>
               <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
@@ -154,7 +154,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Total Revenue</p>
+                <p className="text-slate-400 text-sm font-medium">Total omsättning</p>
                 <p className="text-2xl font-bold text-green-400 mt-1">{stats.totalRevenue.toLocaleString()} SEK</p>
               </div>
               <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
@@ -168,7 +168,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Team Members</p>
+                <p className="text-slate-400 text-sm font-medium">Teammedlemmar</p>
                 <p className="text-2xl font-bold text-white mt-1">{stats.totalUsers}</p>
               </div>
               <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center">
@@ -182,7 +182,7 @@ export default function DashboardPage() {
           <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm font-medium">Active Users</p>
+                <p className="text-slate-400 text-sm font-medium">Aktiva användare</p>
                 <p className="text-2xl font-bold text-green-400 mt-1">{stats.activeUsers}</p>
               </div>
               <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
@@ -197,14 +197,14 @@ export default function DashboardPage() {
         {/* Quick Actions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
+            <h2 className="text-xl font-semibold text-white mb-4">Snabbåtgärder</h2>
             <div className="space-y-3">
               <Link href="/customers" className="block w-full btn-primary text-center">
                 <div className="flex items-center justify-center space-x-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                   </svg>
-                  <span>Manage Customers</span>
+                  <span>Hantera kunder</span>
                 </div>
               </Link>
               <Link href="/quotes" className="block w-full btn-secondary text-center">
@@ -212,7 +212,7 @@ export default function DashboardPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <span>View Quotes</span>
+                  <span>Visa offerter</span>
                 </div>
               </Link>
               <Link href="/calendar" className="block w-full btn-secondary text-center">
@@ -220,7 +220,7 @@ export default function DashboardPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span>Schedule Jobs</span>
+                  <span>Schemalägg jobb</span>
                 </div>
               </Link>
               <Link href="/profile" className="block w-full btn-secondary text-center">
@@ -228,27 +228,27 @@ export default function DashboardPage() {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Profile & Team</span>
+                  <span>Profil & Team</span>
                 </div>
               </Link>
             </div>
           </div>
 
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4">Recent Activity</h2>
+            <h2 className="text-xl font-semibold text-white mb-4">Senaste aktivitet</h2>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 p-3 bg-slate-700/30 rounded-lg">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <div>
-                  <p className="text-white text-sm font-medium">Welcome to Floowly!</p>
-                  <p className="text-slate-400 text-xs">Your workflow management system is ready to use</p>
+                  <p className="text-white text-sm font-medium">Välkommen till Floowly!</p>
+                  <p className="text-slate-400 text-xs">Ditt arbetsflödeshanteringssystem är redo att användas</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3 p-3 bg-slate-700/30 rounded-lg">
                 <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 <div>
-                  <p className="text-white text-sm font-medium">Account created successfully</p>
-                  <p className="text-slate-400 text-xs">You can now start managing your business</p>
+                  <p className="text-white text-sm font-medium">Konto skapat framgångsrikt</p>
+                  <p className="text-slate-400 text-xs">Du kan nu börja hantera ditt företag</p>
                 </div>
               </div>
             </div>
