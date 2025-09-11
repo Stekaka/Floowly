@@ -489,7 +489,7 @@ export function QuoteForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="expiresAt">Expires At</Label>
+                <Label htmlFor="expiresAt">Utgår</Label>
                 <Input
                   id="expiresAt"
                   type="datetime-local"
@@ -507,21 +507,21 @@ export function QuoteForm({
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Cost Helpers</span>
+                <span>Kostnadshjälpare</span>
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
                   onClick={() => setShowCostHelpers(!showCostHelpers)}
                 >
-                  {showCostHelpers ? 'Hide' : 'Show'}
+                  {showCostHelpers ? 'Dölj' : 'Visa'}
                 </Button>
               </CardTitle>
             </CardHeader>
             {showCostHelpers && (
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="hours">Hours</Label>
+                  <Label htmlFor="hours">Timmar</Label>
                   <Input
                     id="hours"
                     type="number"
@@ -533,7 +533,7 @@ export function QuoteForm({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="materialCost">Material Cost (SEK)</Label>
+                  <Label htmlFor="materialCost">Materialkostnad (SEK)</Label>
                   <Input
                     id="materialCost"
                     type="number"
@@ -545,7 +545,7 @@ export function QuoteForm({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="markupPercentage">Markup %</Label>
+                  <Label htmlFor="markupPercentage">Påslag %</Label>
                   <Input
                     id="markupPercentage"
                     type="number"
@@ -562,12 +562,12 @@ export function QuoteForm({
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm">
                     <Calculator className="w-4 h-4" />
-                    <span>Estimated Cost:</span>
+                    <span>Beräknad kostnad:</span>
                     <span className="font-medium">{formatCurrency(profitEstimate)}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <TrendingUp className="w-4 h-4" />
-                    <span>Profit Margin:</span>
+                    <span>Vinstmarginal:</span>
                     <span className="font-medium">
                       {totals.total > 0 ? ((totals.total - profitEstimate) / totals.total * 100).toFixed(1) : 0}%
                     </span>
@@ -580,33 +580,33 @@ export function QuoteForm({
           {/* Quote Summary */}
           <Card className="sticky top-4">
             <CardHeader>
-              <CardTitle>Quote Summary</CardTitle>
+              <CardTitle>Offertsammanfattning</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span>Subtotal:</span>
+                  <span>Delsumma:</span>
                   <span>{formatCurrency(totals.subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span>Tax:</span>
+                  <span>Moms:</span>
                   <span>{formatCurrency(totals.taxAmount)}</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-semibold">
-                  <span>Total:</span>
+                  <span>Totalt:</span>
                   <span>{formatCurrency(totals.total)}</span>
                 </div>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>Items:</span>
+                  <span>Artiklar:</span>
                   <span>{items.length}</span>
                 </div>
                 {watchedValues.hours && (
                   <div className="flex justify-between text-sm text-muted-foreground">
-                    <span>Hours:</span>
+                    <span>Timmar:</span>
                     <span>{watchedValues.hours}</span>
                   </div>
                 )}

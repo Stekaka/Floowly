@@ -1,15 +1,15 @@
 import { z } from "zod"
 
 export const customerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
+  name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
   company: z.string().optional(),
-  email: z.string().email("Please enter a valid email address").optional().or(z.literal("")),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  email: z.string().email("Ange en giltig e-postadress").optional().or(z.literal("")),
+  phone: z.string().min(10, "Telefonnumret måste vara minst 10 siffror"),
   address: z.object({
-    street: z.string().min(1, "Street is required"),
-    city: z.string().min(1, "City is required"),
-    postalCode: z.string().min(1, "Postal code is required"),
-    country: z.string().min(1, "Country is required"),
+    street: z.string().min(1, "Gata krävs"),
+    city: z.string().min(1, "Stad krävs"),
+    postalCode: z.string().min(1, "Postnummer krävs"),
+    country: z.string().min(1, "Land krävs"),
   }).optional(),
   tags: z.array(z.string()),
   status: z.enum(['active', 'inactive', 'prospect']),
@@ -22,8 +22,8 @@ export const customerFiltersSchema = z.object({
 })
 
 export const noteSchema = z.object({
-  content: z.string().min(1, "Note content is required"),
-  author: z.string().min(1, "Author is required"),
+  content: z.string().min(1, "Anteckningsinnehåll krävs"),
+  author: z.string().min(1, "Författare krävs"),
 })
 
 export type CustomerFormData = z.infer<typeof customerSchema>

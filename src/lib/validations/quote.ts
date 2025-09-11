@@ -2,18 +2,18 @@ import { z } from "zod"
 import { QuoteItem, Quote } from "@/types/quote"
 
 export const quoteItemSchema = z.object({
-  name: z.string().min(1, "Item name is required"),
+  name: z.string().min(1, "Artikelnamn krävs"),
   description: z.string().optional(),
-  quantity: z.number().min(0.01, "Quantity must be greater than 0"),
-  unitPrice: z.number().min(0, "Unit price cannot be negative"),
-  taxRate: z.number().min(0).max(100, "Tax rate must be between 0 and 100"),
+  quantity: z.number().min(0.01, "Antal måste vara större än 0"),
+  unitPrice: z.number().min(0, "Enhetspris kan inte vara negativt"),
+  taxRate: z.number().min(0).max(100, "Momsprocent måste vara mellan 0 och 100"),
 })
 
 export const customerDataSchema = z.object({
-  name: z.string().min(2, "Customer name must be at least 2 characters"),
+  name: z.string().min(2, "Kundnamn måste vara minst 2 tecken"),
   company: z.string().optional(),
-  email: z.string().email("Invalid email address").optional(),
-  phone: z.string().min(8, "Phone number must be at least 8 characters"),
+  email: z.string().email("Ogiltig e-postadress").optional(),
+  phone: z.string().min(8, "Telefonnummer måste vara minst 8 tecken"),
   address: z.object({
     street: z.string().optional(),
     city: z.string().optional(),
@@ -27,9 +27,9 @@ export const quoteSchema = z.object({
   newCustomer: z.boolean(),
   customerData: customerDataSchema.optional(),
   saveCustomer: z.boolean(),
-  title: z.string().min(1, "Quote title is required"),
+  title: z.string().min(1, "Offerttitel krävs"),
   description: z.string().optional(),
-  items: z.array(quoteItemSchema).min(1, "At least one item is required"),
+  items: z.array(quoteItemSchema).min(1, "Minst en artikel krävs"),
   notes: z.string().optional(),
   terms: z.string().optional(),
   hours: z.number().min(0).optional(),
@@ -40,7 +40,7 @@ export const quoteSchema = z.object({
   // Either customerId or customerData must be provided
   return data.customerId || data.customerData
 }, {
-  message: "Either select an existing customer or provide new customer details",
+  message: "Välj antingen en befintlig kund eller ange nya kunduppgifter",
   path: ["customerId"]
 })
 

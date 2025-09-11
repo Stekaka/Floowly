@@ -217,7 +217,7 @@ export function QuoteItem({
       {/* Validation message - only show if invalid */}
       {!isFormValid && (
         <div className="mt-1 text-xs text-destructive">
-          Fill in name, quantity, and price
+          Fyll i namn, antal och pris
         </div>
       )}
     </div>

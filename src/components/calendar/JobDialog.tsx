@@ -659,7 +659,7 @@ export function JobDialog({
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <User className="w-5 h-5" />
-                        Customer Information
+                        Kundinformation
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -692,7 +692,7 @@ export function JobDialog({
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <FileText className="w-5 h-5" />
-                        Quote Information
+                        Offertinformation
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -708,7 +708,7 @@ export function JobDialog({
                             size="sm"
                             onClick={() => onOpenQuote(selectedQuote.id)}
                           >
-                            View Quote
+                            Visa offert
                           </Button>
                         )}
                       </div>
@@ -722,7 +722,7 @@ export function JobDialog({
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <Calendar className="w-5 h-5" />
-                        Schedule
+                        Schema
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
@@ -736,7 +736,7 @@ export function JobDialog({
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-muted-foreground" />
-                        <span>{job?.hours} hours</span>
+                        <span>{job?.hours} timmar</span>
                       </div>
                     </CardContent>
                   </Card>
@@ -745,16 +745,16 @@ export function JobDialog({
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <DollarSign className="w-5 h-5" />
-                        Pricing
+                        Prissättning
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
                       <div className="flex justify-between">
-                        <span>Material Cost:</span>
+                        <span>Materialkostnad:</span>
                         <span>{job?.materialCost.toLocaleString()} SEK</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Quoted Price:</span>
+                        <span>Offeratpris:</span>
                         <span className="font-semibold">{job?.quotedPrice.toLocaleString()} SEK</span>
                       </div>
                     </CardContent>
@@ -765,7 +765,7 @@ export function JobDialog({
                 {job?.notes && (
                   <Card>
                     <CardHeader>
-                      <CardTitle>Notes</CardTitle>
+                      <CardTitle>Anteckningar</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-sm">{job.notes}</p>

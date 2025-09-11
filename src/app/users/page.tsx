@@ -47,13 +47,13 @@ export default function UsersPage() {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       setShowInviteDialog(false)
       toast({
-        title: "User created successfully",
-        description: "The user has been added to your company.",
+        title: "Användare skapad framgångsrikt",
+        description: "Användaren har lagts till i ditt företag.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error creating user",
+        title: "Fel vid skapande av användare",
         description: error.message,
         variant: "destructive",
       })
@@ -68,13 +68,13 @@ export default function UsersPage() {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       setEditingUser(null)
       toast({
-        title: "User updated successfully",
-        description: "The user's information has been updated.",
+        title: "Användare uppdaterad framgångsrikt",
+        description: "Användarens information har uppdaterats.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error updating user",
+        title: "Fel vid uppdatering av användare",
         description: error.message,
         variant: "destructive",
       })
@@ -87,13 +87,13 @@ export default function UsersPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       toast({
-        title: "User deleted successfully",
-        description: "The user has been removed from your company.",
+        title: "Användare borttagen framgångsrikt",
+        description: "Användaren har tagits bort från ditt företag.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error deleting user",
+        title: "Fel vid borttagning av användare",
         description: error.message,
         variant: "destructive",
       })
@@ -123,7 +123,7 @@ export default function UsersPage() {
   }
 
   const handleDeleteUser = (userId: string) => {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (confirm('Är du säker på att du vill ta bort denna användare?')) {
       deleteUserMutation.mutate(userId)
     }
   }
@@ -163,59 +163,59 @@ export default function UsersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Team Management</h1>
+          <h1 className="text-3xl font-bold">Teamhantering</h1>
           <p className="text-muted-foreground">
-            Manage your team members and their permissions
+            Hantera dina teammedlemmar och deras behörigheter
           </p>
         </div>
         <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="w-4 h-4 mr-2" />
-              Invite User
+              Bjud in användare
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite New User</DialogTitle>
+              <DialogTitle>Bjud in ny användare</DialogTitle>
             </DialogHeader>
             <form action={handleInviteUser} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name">Namn *</Label>
                   <Input id="name" name="name" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">E-post *</Label>
                   <Input id="email" name="email" type="email" required />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role *</Label>
+                  <Label htmlFor="role">Roll *</Label>
                   <Select name="role" required>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select role" />
+                      <SelectValue placeholder="Välj roll" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="admin">Administrator</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="employee">Employee</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
+                      <SelectItem value="admin">Administratör</SelectItem>
+                      <SelectItem value="manager">Chef</SelectItem>
+                      <SelectItem value="employee">Anställd</SelectItem>
+                      <SelectItem value="viewer">Visare</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone">Telefon</Label>
                   <Input id="phone" name="phone" />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setShowInviteDialog(false)}>
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button type="submit" disabled={createUserMutation.isPending}>
-                  {createUserMutation.isPending ? 'Creating...' : 'Create User'}
+                  {createUserMutation.isPending ? 'Skapar...' : 'Skapa användare'}
                 </Button>
               </div>
             </form>
@@ -231,7 +231,7 @@ export default function UsersPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  placeholder="Search users..."
+                  placeholder="Sök användare..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -245,17 +245,17 @@ export default function UsersPage() {
       {/* Users Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Team Members ({filteredUsers.length})</CardTitle>
+          <CardTitle>Teammedlemmar ({filteredUsers.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Användare</TableHead>
+                <TableHead>Roll</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Last Login</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Senaste inloggning</TableHead>
+                <TableHead>Åtgärder</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -288,7 +288,7 @@ export default function UsersPage() {
                   <TableCell>
                     {user.lastLoginAt
                       ? new Date(user.lastLoginAt).toLocaleDateString('sv-SE')
-                      : 'Never'
+                      : 'Aldrig'
                     }
                   </TableCell>
                   <TableCell>
@@ -323,31 +323,31 @@ export default function UsersPage() {
         <Dialog open={!!editingUser} onOpenChange={() => setEditingUser(null)}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Edit User</DialogTitle>
+              <DialogTitle>Redigera användare</DialogTitle>
             </DialogHeader>
             <form action={(formData) => handleUpdateUser(editingUser.id, formData)} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="edit-name">Name *</Label>
+                  <Label htmlFor="edit-name">Namn *</Label>
                   <Input id="edit-name" name="name" defaultValue={editingUser.name} required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="edit-email">Email</Label>
+                  <Label htmlFor="edit-email">E-post</Label>
                   <Input id="edit-email" value={editingUser.email} disabled />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="edit-role">Role *</Label>
+                  <Label htmlFor="edit-role">Roll *</Label>
                   <Select name="role" defaultValue={editingUser.role}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="admin">Administrator</SelectItem>
-                      <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="employee">Employee</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
+                      <SelectItem value="admin">Administratör</SelectItem>
+                      <SelectItem value="manager">Chef</SelectItem>
+                      <SelectItem value="employee">Anställd</SelectItem>
+                      <SelectItem value="viewer">Visare</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -358,25 +358,25 @@ export default function UsersPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="inactive">Inactive</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="active">Aktiv</SelectItem>
+                      <SelectItem value="inactive">Inaktiv</SelectItem>
+                      <SelectItem value="pending">Väntande</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="edit-phone">Phone</Label>
+                  <Label htmlFor="edit-phone">Telefon</Label>
                   <Input id="edit-phone" name="phone" defaultValue={editingUser.phone || ''} />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setEditingUser(null)}>
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button type="submit" disabled={updateUserMutation.isPending}>
-                  {updateUserMutation.isPending ? 'Updating...' : 'Update User'}
+                  {updateUserMutation.isPending ? 'Uppdaterar...' : 'Uppdatera användare'}
                 </Button>
               </div>
             </form>

@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const recurrenceRuleSchema = z.object({
   frequency: z.enum(['daily', 'weekly', 'monthly', 'yearly']),
-  interval: z.number().min(1, "Interval must be at least 1"),
+  interval: z.number().min(1, "Intervall måste vara minst 1"),
   daysOfWeek: z.array(z.number().min(0).max(6)).optional(),
   dayOfMonth: z.number().min(1).max(31).optional(),
   endDate: z.string().optional(),
@@ -10,10 +10,10 @@ export const recurrenceRuleSchema = z.object({
 })
 
 export const customerDataSchema = z.object({
-  name: z.string().min(2, "Customer name must be at least 2 characters"),
+  name: z.string().min(2, "Kundnamn måste vara minst 2 tecken"),
   company: z.string().optional(),
-  email: z.string().email("Invalid email address").optional(),
-  phone: z.string().min(8, "Phone number must be at least 8 characters"),
+  email: z.string().email("Ogiltig e-postadress").optional(),
+  phone: z.string().min(8, "Telefonnummer måste vara minst 8 tecken"),
   address: z.object({
     street: z.string().optional(),
     city: z.string().optional(),
@@ -30,15 +30,15 @@ export const jobSchema = z.object({
   customerData: customerDataSchema.optional(),
   saveCustomer: z.boolean(),
   quoteId: z.string().optional(),
-  title: z.string().min(1, "Job title is required"),
+  title: z.string().min(1, "Jobbtitel krävs"),
   description: z.string().optional(),
-  startDate: z.string().min(1, "Start date is required"),
-  endDate: z.string().min(1, "End date is required"),
+  startDate: z.string().min(1, "Startdatum krävs"),
+  endDate: z.string().min(1, "Slutdatum krävs"),
   startTime: z.string().optional(),
   endTime: z.string().optional(),
-  hours: z.number().min(0, "Hours cannot be negative"),
-  materialCost: z.number().min(0, "Material cost cannot be negative"),
-  quotedPrice: z.number().min(0, "Quoted price cannot be negative"),
+  hours: z.number().min(0, "Timmar kan inte vara negativa"),
+  materialCost: z.number().min(0, "Materialkostnad kan inte vara negativ"),
+  quotedPrice: z.number().min(0, "Offeratpris kan inte vara negativt"),
   status: z.enum(['pending', 'confirmed', 'in_progress', 'completed', 'cancelled']),
   notes: z.string().optional(),
   isRecurring: z.boolean(),
@@ -48,7 +48,7 @@ export const jobSchema = z.object({
   // Either customerId or customerData must be provided
   return data.customerId || data.customerData
 }, {
-  message: "Either select an existing customer or provide new customer data",
+  message: "Välj antingen en befintlig kund eller ange nya kunduppgifter",
   path: ["customerId"]
 })
 
@@ -100,11 +100,11 @@ export const getJobStatusColor = (status: string): "default" | "success" | "dest
 
 export const getJobStatusLabel = (status: string): string => {
   switch (status) {
-    case 'pending': return 'Pending'
-    case 'confirmed': return 'Confirmed'
-    case 'in_progress': return 'In Progress'
-    case 'completed': return 'Completed'
-    case 'cancelled': return 'Cancelled'
+    case 'pending': return 'Väntande'
+    case 'confirmed': return 'Bekräftad'
+    case 'in_progress': return 'Pågående'
+    case 'completed': return 'Slutförd'
+    case 'cancelled': return 'Inställd'
     default: return status
   }
 }
