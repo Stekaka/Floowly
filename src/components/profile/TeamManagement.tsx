@@ -46,13 +46,13 @@ export function TeamManagement() {
       queryClient.invalidateQueries({ queryKey: ['users'] })
       setShowInviteDialog(false)
       toast({
-        title: "User created successfully",
-        description: "The user has been added to your company.",
+        title: "Användare skapad framgångsrikt",
+        description: "Användaren har lagts till i ditt företag.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error creating user",
+        title: "Fel vid skapande av användare",
         description: error.message,
         variant: "destructive",
       })
@@ -162,57 +162,57 @@ export function TeamManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Team Management</h2>
-          <p className="text-slate-300">Manage your team members and their permissions</p>
+          <h2 className="text-2xl font-bold text-white">Teamhantering</h2>
+          <p className="text-slate-300">Hantera dina teammedlemmar och deras behörigheter</p>
         </div>
         <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="w-4 h-4 mr-2" />
-              Invite User
+              Bjud in användare
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite New User</DialogTitle>
+              <DialogTitle>Bjud in ny användare</DialogTitle>
             </DialogHeader>
             <form action={handleInviteUser} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name *</Label>
+                  <Label htmlFor="name">Namn *</Label>
                   <Input id="name" name="name" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">E-post *</Label>
                   <Input id="email" name="email" type="email" required />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="role">Role *</Label>
+                  <Label htmlFor="role">Roll *</Label>
                   <Select name="role" required>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select role" />
+                      <SelectValue placeholder="Välj roll" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="admin">Administrator</SelectItem>
                       <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="employee">Employee</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
+                      <SelectItem value="employee">Anställd</SelectItem>
+                      <SelectItem value="viewer">Visare</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone">Telefon</Label>
                   <Input id="phone" name="phone" />
                 </div>
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setShowInviteDialog(false)}>
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button type="submit" disabled={createUserMutation.isPending}>
-                  {createUserMutation.isPending ? 'Creating...' : 'Create User'}
+                  {createUserMutation.isPending ? 'Skapar...' : 'Skapa användare'}
                 </Button>
               </div>
             </form>
@@ -226,7 +226,7 @@ export function TeamManagement() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder="Search users..."
+              placeholder="Sök användare..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -238,17 +238,17 @@ export function TeamManagement() {
       {/* Users Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Team Members ({filteredUsers.length})</CardTitle>
+          <CardTitle>Teammedlemmar ({filteredUsers.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Användare</TableHead>
+                <TableHead>Roll</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Last Login</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Senaste inloggning</TableHead>
+                <TableHead>Åtgärder</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -281,7 +281,7 @@ export function TeamManagement() {
                   <TableCell>
                     {user.lastLoginAt
                       ? new Date(user.lastLoginAt).toLocaleDateString('sv-SE')
-                      : 'Never'
+                      : 'Aldrig'
                     }
                   </TableCell>
                   <TableCell>
@@ -339,8 +339,8 @@ export function TeamManagement() {
                     <SelectContent>
                       <SelectItem value="admin">Administrator</SelectItem>
                       <SelectItem value="manager">Manager</SelectItem>
-                      <SelectItem value="employee">Employee</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
+                      <SelectItem value="employee">Anställd</SelectItem>
+                      <SelectItem value="viewer">Visare</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -366,7 +366,7 @@ export function TeamManagement() {
               </div>
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setEditingUser(null)}>
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button type="submit" disabled={updateUserMutation.isPending}>
                   {updateUserMutation.isPending ? 'Updating...' : 'Update User'}

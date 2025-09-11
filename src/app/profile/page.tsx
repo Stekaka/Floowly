@@ -69,14 +69,14 @@ export default function ProfileSettingsPage() {
       setProfile(updatedProfile)
       queryClient.setQueryData(["profile"], updatedProfile)
       toast({
-        title: "Profile updated",
-        description: "Your profile has been updated successfully.",
+        title: "Profil uppdaterad",
+        description: "Din profil har uppdaterats framgångsrikt.",
       })
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to update profile",
+        title: "Fel",
+        description: error.message || "Misslyckades att uppdatera profil",
         variant: "destructive",
       })
     },
@@ -199,15 +199,15 @@ export default function ProfileSettingsPage() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Profile Settings</h1>
-          <p className="text-slate-300">Manage your account settings and preferences</p>
+          <h1 className="text-3xl font-bold text-white mb-2">Profilinställningar</h1>
+          <p className="text-slate-300">Hantera dina kontoinställningar och preferenser</p>
         </div>
 
         {/* Main Content */}
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="profile">Profile</TabsTrigger>
-            <TabsTrigger value="security">Security</TabsTrigger>
+            <TabsTrigger value="profile">Profil</TabsTrigger>
+            <TabsTrigger value="security">Säkerhet</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
           </TabsList>
           

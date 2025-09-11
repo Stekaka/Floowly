@@ -57,22 +57,22 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Lock className="w-5 h-5" />
-          Change Password
+          Ändra lösenord
         </CardTitle>
         <CardDescription>
-          Update your password to keep your account secure
+          Uppdatera ditt lösenord för att hålla ditt konto säkert
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="currentPassword">Current Password</Label>
+            <Label htmlFor="currentPassword">Nuvarande lösenord</Label>
             <div className="relative">
               <Input
                 id="currentPassword"
                 type={showPasswords.current ? "text" : "password"}
                 {...register("currentPassword")}
-                placeholder="Enter your current password"
+                placeholder="Ange ditt nuvarande lösenord"
                 disabled={isLoading}
                 aria-invalid={!!errors.currentPassword}
                 aria-describedby={errors.currentPassword ? "currentPassword-error" : undefined}
@@ -84,7 +84,7 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => togglePasswordVisibility("current")}
                 disabled={isLoading}
-                aria-label={showPasswords.current ? "Hide password" : "Show password"}
+                aria-label={showPasswords.current ? "Dölj lösenord" : "Visa lösenord"}
               >
                 {showPasswords.current ? (
                   <EyeOff className="h-4 w-4" />
@@ -101,13 +101,13 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="newPassword">New Password</Label>
+            <Label htmlFor="newPassword">Nytt lösenord</Label>
             <div className="relative">
               <Input
                 id="newPassword"
                 type={showPasswords.new ? "text" : "password"}
                 {...register("newPassword")}
-                placeholder="Enter your new password"
+                placeholder="Ange ditt nya lösenord"
                 disabled={isLoading}
                 aria-invalid={!!errors.newPassword}
                 aria-describedby={errors.newPassword ? "newPassword-error" : undefined}
@@ -119,7 +119,7 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => togglePasswordVisibility("new")}
                 disabled={isLoading}
-                aria-label={showPasswords.new ? "Hide password" : "Show password"}
+                aria-label={showPasswords.new ? "Dölj lösenord" : "Visa lösenord"}
               >
                 {showPasswords.new ? (
                   <EyeOff className="h-4 w-4" />
@@ -136,13 +136,13 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm New Password</Label>
+            <Label htmlFor="confirmPassword">Bekräfta nytt lösenord</Label>
             <div className="relative">
               <Input
                 id="confirmPassword"
                 type={showPasswords.confirm ? "text" : "password"}
                 {...register("confirmPassword")}
-                placeholder="Confirm your new password"
+                placeholder="Bekräfta ditt nya lösenord"
                 disabled={isLoading}
                 aria-invalid={!!errors.confirmPassword}
                 aria-describedby={errors.confirmPassword ? "confirmPassword-error" : undefined}
@@ -154,7 +154,7 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => togglePasswordVisibility("confirm")}
                 disabled={isLoading}
-                aria-label={showPasswords.confirm ? "Hide password" : "Show password"}
+                aria-label={showPasswords.confirm ? "Dölj lösenord" : "Visa lösenord"}
               >
                 {showPasswords.confirm ? (
                   <EyeOff className="h-4 w-4" />
@@ -171,12 +171,12 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
           </div>
 
           <div className="bg-muted/50 p-4 rounded-lg">
-            <h4 className="text-sm font-medium mb-2">Password Requirements:</h4>
+            <h4 className="text-sm font-medium mb-2">Lösenordskrav:</h4>
             <ul className="text-xs text-muted-foreground space-y-1">
-              <li>• At least 8 characters long</li>
-              <li>• Contains uppercase and lowercase letters</li>
-              <li>• Contains at least one number</li>
-              <li>• Contains at least one special character</li>
+              <li>• Minst 8 tecken långt</li>
+              <li>• Innehåller stora och små bokstäver</li>
+              <li>• Innehåller minst en siffra</li>
+              <li>• Innehåller minst ett specialtecken</li>
             </ul>
           </div>
 
@@ -186,12 +186,12 @@ export function SecurityForm({ onSubmit, isLoading }: SecurityFormProps) {
               disabled={isLoading}
               aria-describedby="password-description"
             >
-              {isLoading ? "Updating..." : "Update Password"}
+              {isLoading ? "Uppdaterar..." : "Uppdatera lösenord"}
             </Button>
           </div>
           
           <p id="password-description" className="text-xs text-muted-foreground">
-            Your password will be updated immediately after confirmation
+            Ditt lösenord kommer att uppdateras omedelbart efter bekräftelse
           </p>
         </form>
       </CardContent>

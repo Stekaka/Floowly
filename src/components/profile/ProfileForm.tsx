@@ -43,20 +43,20 @@ export function ProfileForm({ profile, onSubmit, isLoading }: ProfileFormProps) 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Profile Information</CardTitle>
+        <CardTitle>Profilinformation</CardTitle>
         <CardDescription>
-          Update your personal information and contact details
+          Uppdatera din personliga information och kontaktuppgifter
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName">Fullständigt namn</Label>
               <Input
                 id="fullName"
                 {...register("fullName")}
-                placeholder="Enter your full name"
+                placeholder="Ange ditt fullständiga namn"
                 disabled={isLoading}
                 aria-invalid={!!errors.fullName}
                 aria-describedby={errors.fullName ? "fullName-error" : undefined}
@@ -69,12 +69,12 @@ export function ProfileForm({ profile, onSubmit, isLoading }: ProfileFormProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">E-post</Label>
               <Input
                 id="email"
                 type="email"
                 {...register("email")}
-                placeholder="Enter your email"
+                placeholder="Ange din e-post"
                 disabled={isLoading}
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "email-error" : undefined}
@@ -89,12 +89,12 @@ export function ProfileForm({ profile, onSubmit, isLoading }: ProfileFormProps) 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone">Telefonnummer</Label>
               <Input
                 id="phone"
                 type="tel"
                 {...register("phone")}
-                placeholder="Enter your phone number"
+                placeholder="Ange ditt telefonnummer"
                 disabled={isLoading}
                 aria-invalid={!!errors.phone}
                 aria-describedby={errors.phone ? "phone-error" : undefined}
@@ -107,11 +107,11 @@ export function ProfileForm({ profile, onSubmit, isLoading }: ProfileFormProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="companyName">Company Name</Label>
+              <Label htmlFor="companyName">Företagsnamn</Label>
               <Input
                 id="companyName"
                 {...register("companyName")}
-                placeholder="Enter your company name"
+                placeholder="Ange ditt företagsnamn"
                 disabled={isLoading}
                 aria-invalid={!!errors.companyName}
                 aria-describedby={errors.companyName ? "companyName-error" : undefined}
@@ -131,14 +131,14 @@ export function ProfileForm({ profile, onSubmit, isLoading }: ProfileFormProps) 
               onClick={() => reset()}
               disabled={!isDirty || isLoading}
             >
-              Cancel
+              Avbryt
             </Button>
             <Button
               type="submit"
               disabled={!isDirty || isLoading}
               aria-describedby="save-description"
             >
-              {isLoading ? "Saving..." : "Save Changes"}
+              {isLoading ? "Sparar..." : "Spara ändringar"}
             </Button>
           </div>
           

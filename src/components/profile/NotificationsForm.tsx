@@ -22,20 +22,20 @@ export function NotificationsForm({ settings, onUpdate, isLoading }: Notificatio
   const notificationOptions = [
     {
       key: "email" as const,
-      label: "Email Notifications",
-      description: "Receive updates via email",
+      label: "E-postnotifieringar",
+      description: "Få uppdateringar via e-post",
       icon: Mail,
     },
     {
       key: "sms" as const,
-      label: "SMS Notifications",
-      description: "Receive updates via text message",
+      label: "SMS-notifieringar",
+      description: "Få uppdateringar via textmeddelande",
       icon: MessageSquare,
     },
     {
       key: "push" as const,
-      label: "Push Notifications",
-      description: "Receive updates via browser notifications",
+      label: "Push-notifieringar",
+      description: "Få uppdateringar via webbläsarnotifieringar",
       icon: Bell,
     },
   ]
@@ -45,10 +45,10 @@ export function NotificationsForm({ settings, onUpdate, isLoading }: Notificatio
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Smartphone className="w-5 h-5" />
-          Notification Preferences
+          Notifieringsinställningar
         </CardTitle>
         <CardDescription>
-          Choose how you want to be notified about updates
+          Välj hur du vill bli notifierad om uppdateringar
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -88,18 +88,18 @@ export function NotificationsForm({ settings, onUpdate, isLoading }: Notificatio
         </div>
 
         <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-          <h4 className="text-sm font-medium mb-2">Notification Types:</h4>
+          <h4 className="text-sm font-medium mb-2">Notifieringstyper:</h4>
           <ul className="text-xs text-muted-foreground space-y-1">
-            <li>• New quotes and job updates</li>
-            <li>• Customer inquiries and responses</li>
-            <li>• System maintenance and updates</li>
-            <li>• Security alerts and account changes</li>
+            <li>• Nya offerter och jobbuppdateringar</li>
+            <li>• Kundförfrågningar och svar</li>
+            <li>• Systemunderhåll och uppdateringar</li>
+            <li>• Säkerhetsvarningar och kontoförändringar</li>
           </ul>
         </div>
 
         <div className="mt-4">
           <p className="text-xs text-muted-foreground">
-            Changes are saved automatically
+            Ändringar sparas automatiskt
           </p>
         </div>
       </CardContent>
