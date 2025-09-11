@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { userApi } from '@/lib/api/users';
+import { customerApi } from '@/lib/api/customers';
+import { quoteApi } from '@/lib/api/quotes';
+import { jobApi } from '@/lib/api/jobs';
 
 interface DashboardStats {
   totalCustomers: number;
@@ -34,10 +37,6 @@ export default function DashboardPage() {
       router.push('/login');
       return;
     }
-    
-    if (status === 'authenticated') {
-      fetchDashboardData();
-    }
   }, [status, router]);
 
   // Fetch team data
@@ -47,19 +46,29 @@ export default function DashboardPage() {
     enabled: status === "authenticated",
   });
 
-  const fetchDashboardData = async () => {
-    try {
-      const [customersRes, quotesRes, jobsRes] = await Promise.all([
-        fetch('/api/customers'),
-        fetch('/api/quotes'),
-        fetch('/api/jobs'),
-      ]);
+  // Fetch data using TanStack Query
+  const { data: customers = [] } = useQuery({
+    queryKey: ['customers'],
+    queryFn: () => customerApi.getCustomers(),
+    enabled: status === "authenticated",
+  });
 
-      const customers = await customersRes.json();
-      const quotes = await quotesRes.json();
-      const jobs = await jobsRes.json();
+  const { data: quotes = [] } = useQuery({
+    queryKey: ['quotes'],
+    queryFn: () => quoteApi.getQuotes(),
+    enabled: status === "authenticated",
+  });
 
-      const totalRevenue = jobs.reduce((sum: number, job: any) => sum + Number(job.offeredPrice || 0), 0);
+  const { data: jobs = [] } = useQuery({
+    queryKey: ['jobs'],
+    queryFn: () => jobApi.getJobs(),
+    enabled: status === "authenticated",
+  });
+
+  // Calculate stats when data is available
+  useEffect(() => {
+    if (status === 'authenticated' && customers && quotes && jobs && teamUsers) {
+      const totalRevenue = jobs.reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
       const activeUsers = teamUsers.filter((user: any) => user.status === 'active').length;
 
       setStats({
@@ -70,20 +79,9 @@ export default function DashboardPage() {
         totalUsers: teamUsers.length,
         activeUsers,
       });
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      setStats({
-        totalCustomers: 0,
-        totalQuotes: 0,
-        totalJobs: 0,
-        totalRevenue: 0,
-        totalUsers: 0,
-        activeUsers: 0,
-      });
-    } finally {
       setLoading(false);
     }
-  };
+  }, [status, customers, quotes, jobs, teamUsers]);
 
   if (status === 'loading' || loading) {
     return (

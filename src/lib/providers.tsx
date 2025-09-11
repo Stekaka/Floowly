@@ -11,7 +11,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 60 * 1000, // 1 minute
+            staleTime: 5 * 60 * 1000, // 5 minutes
+            gcTime: 10 * 60 * 1000, // 10 minutes
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
             retry: (failureCount, error: unknown) => {
               // Don't retry on 4xx errors
               if (error instanceof Error && 'status' in error) {
@@ -20,7 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                   return false;
                 }
               }
-              return failureCount < 3;
+              return failureCount < 2;
             },
           },
           mutations: {
