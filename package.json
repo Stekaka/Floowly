@@ -48,18 +48,18 @@
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.20.5",
-    "zod": "^4.1.7"
+    "zod": "^4.1.7",
+    "eslint": "^9.35.0",
+    "@types/bcryptjs": "^2.4.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-big-calendar": "^1.16.2",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.0.2",
-    "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "jsdom": "^26.1.0",
     "typescript": "^5",
