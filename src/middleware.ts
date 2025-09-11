@@ -17,8 +17,7 @@ export const config = {
     '/customers/:path*',
     '/quotes/:path*',
     '/calendar/:path*',
-    '/api/customers/:path*',
-    '/api/quotes/:path*',
-    '/api/jobs/:path*',
+    '/profile/:path*',
+    '/users/:path*',
   ],
 };
