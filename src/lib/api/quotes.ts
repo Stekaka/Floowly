@@ -1,355 +1,134 @@
 import { Quote, QuoteCreateRequest, QuoteUpdateRequest, QuoteFilters, QuoteStats, QuoteItem } from "@/types/quote"
 import { calculateItemTotals, calculateQuoteTotals, generateQuoteNumber } from "@/lib/validations/quote"
 
-// Mock data - replace with actual API calls
-const mockQuotes: Quote[] = [
-  {
-    id: '1',
-    quoteNumber: 'Q20241201-001',
-    customerId: '1',
-    customer: {
-      id: '1',
-      name: 'John Doe',
-      company: 'Acme Corp',
-      email: 'john@acme.com',
-      phone: '+46 70 123 4567',
-    },
-    title: 'BMW X5 Full Wrap',
-    description: 'Complete vehicle wrap with matte black vinyl',
-    items: [
-      {
-        id: 'item1',
-        name: 'Full Vehicle Wrap',
-        description: 'Matte black vinyl wrap',
-        quantity: 1,
-        unitPrice: 20000,
-        taxRate: 25,
-        subtotal: 20000,
-        taxAmount: 5000,
-        total: 25000,
-      },
-      {
-        id: 'item2',
-        name: 'Design & Installation',
-        description: 'Custom design and professional installation',
-        quantity: 1,
-        unitPrice: 5000,
-        taxRate: 25,
-        subtotal: 5000,
-        taxAmount: 1250,
-        total: 6250,
-      }
-    ],
-    subtotal: 25000,
-    taxAmount: 6250,
-    total: 31250,
-    status: 'sent',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    sentAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days
-    hours: 16,
-    materialCost: 15000,
-    markupPercentage: 33,
-    profitEstimate: 10250,
-  },
-  {
-    id: '2',
-    quoteNumber: 'Q20241201-002',
-    customerId: '2',
-    customer: {
-      id: '2',
-      name: 'Jane Smith',
-      company: 'Tech Solutions AB',
-      email: 'jane@techsolutions.se',
-      phone: '+46 70 987 6543',
-    },
-    title: 'Tesla Model 3 Partial Wrap',
-    description: 'Hood and roof wrap with gloss white vinyl',
-    items: [
-      {
-        id: 'item3',
-        name: 'Partial Wrap',
-        description: 'Hood and roof only',
-        quantity: 1,
-        unitPrice: 8000,
-        taxRate: 25,
-        subtotal: 8000,
-        taxAmount: 2000,
-        total: 10000,
-      },
-      {
-        id: 'item4',
-        name: 'Design & Installation',
-        description: 'Custom design and professional installation',
-        quantity: 1,
-        unitPrice: 2000,
-        taxRate: 25,
-        subtotal: 2000,
-        taxAmount: 500,
-        total: 2500,
-      }
-    ],
-    subtotal: 10000,
-    taxAmount: 2500,
-    total: 12500,
-    status: 'accepted',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    sentAt: new Date().toISOString(),
-    hours: 8,
-    materialCost: 6000,
-    markupPercentage: 25,
-    profitEstimate: 2500,
-  },
-  {
-    id: '3',
-    quoteNumber: 'Q20241201-003',
-    customerId: '3',
-    customer: {
-      id: '3',
-      name: 'Mike Johnson',
-      company: 'Auto Parts Ltd',
-      email: 'mike@autoparts.com',
-      phone: '+46 70 555 1234',
-    },
-    title: 'Mercedes E-Class Hood Wrap',
-    description: 'Hood wrap with carbon fiber pattern',
-    items: [
-      {
-        id: 'item5',
-        name: 'Hood Wrap',
-        description: 'Carbon fiber pattern vinyl',
-        quantity: 1,
-        unitPrice: 3000,
-        taxRate: 25,
-        subtotal: 3000,
-        taxAmount: 750,
-        total: 3750,
-      }
-    ],
-    subtotal: 3000,
-    taxAmount: 750,
-    total: 3750,
-    status: 'draft',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    hours: 4,
-    materialCost: 2000,
-    markupPercentage: 50,
-    profitEstimate: 1750,
-  },
-]
-
 export const quoteApi = {
   async getQuotes(filters?: QuoteFilters): Promise<Quote[]> {
-    await new Promise(resolve => setTimeout(resolve, 500)) // Simulate API delay
-    
-    let filteredQuotes = [...mockQuotes]
-    
-    if (filters?.status?.length) {
-      filteredQuotes = filteredQuotes.filter(quote => 
-        filters.status!.includes(quote.status)
-      )
-    }
-    
-    if (filters?.customerId) {
-      filteredQuotes = filteredQuotes.filter(quote => 
-        quote.customerId === filters.customerId
-      )
-    }
+    const params = new URLSearchParams()
     
     if (filters?.search) {
-      const searchLower = filters.search.toLowerCase()
-      filteredQuotes = filteredQuotes.filter(quote => 
-        quote.title.toLowerCase().includes(searchLower) ||
-        quote.quoteNumber.toLowerCase().includes(searchLower) ||
-        quote.customer?.name.toLowerCase().includes(searchLower) ||
-        quote.customer?.company?.toLowerCase().includes(searchLower)
-      )
+      params.append('search', filters.search)
+    }
+    if (filters?.status && filters.status.length > 0) {
+      params.append('status', filters.status.join(','))
+    }
+    if (filters?.customerId) {
+      params.append('customerId', filters.customerId)
     }
     
-    if (filters?.dateFrom) {
-      filteredQuotes = filteredQuotes.filter(quote => 
-        new Date(quote.createdAt) >= new Date(filters.dateFrom!)
-      )
+    const response = await fetch(`/api/quotes?${params.toString()}`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch quotes')
     }
     
-    if (filters?.dateTo) {
-      filteredQuotes = filteredQuotes.filter(quote => 
-        new Date(quote.createdAt) <= new Date(filters.dateTo!)
-      )
-    }
-    
-    return filteredQuotes
+    return response.json()
   },
 
   async getQuote(id: string): Promise<Quote> {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
-    const quote = mockQuotes.find(q => q.id === id)
-    if (!quote) {
-      throw new Error('Quote not found')
+    const response = await fetch(`/api/quotes/${id}`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch quote')
     }
     
-    return quote
+    return response.json()
   },
 
   async createQuote(data: QuoteCreateRequest): Promise<Quote> {
-    await new Promise(resolve => setTimeout(resolve, 800))
+    const response = await fetch('/api/quotes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
     
-    // Calculate item totals
-    const items: QuoteItem[] = data.items.map((item, index) => ({
-      id: `item_${Date.now()}_${index}`,
-      ...item,
-      ...calculateItemTotals(item),
-    }))
-    
-    // Calculate quote totals
-    const totals = calculateQuoteTotals(items)
-    
-    const newQuote: Quote = {
-      id: (mockQuotes.length + 1).toString(),
-      quoteNumber: generateQuoteNumber(),
-      ...data,
-      items,
-      ...totals,
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+    if (!response.ok) {
+      throw new Error('Failed to create quote')
     }
     
-    mockQuotes.push(newQuote)
-    return newQuote
+    return response.json()
   },
 
   async updateQuote(data: QuoteUpdateRequest): Promise<Quote> {
-    await new Promise(resolve => setTimeout(resolve, 600))
+    const response = await fetch(`/api/quotes/${data.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
     
-    const index = mockQuotes.findIndex(q => q.id === data.id)
-    if (index === -1) {
-      throw new Error('Quote not found')
+    if (!response.ok) {
+      throw new Error('Failed to update quote')
     }
     
-    let items = mockQuotes[index].items
-    
-    // If items are being updated, recalculate totals
-    if (data.items) {
-      items = data.items.map((item, itemIndex) => ({
-        id: `item_${Date.now()}_${itemIndex}`,
-        ...item,
-        ...calculateItemTotals(item),
-      }))
-    }
-    
-    const totals = calculateQuoteTotals(items)
-    
-    mockQuotes[index] = {
-      ...mockQuotes[index],
-      ...data,
-      items,
-      ...totals,
-      updatedAt: new Date().toISOString(),
-    }
-    
-    return mockQuotes[index]
+    return response.json()
   },
 
   async deleteQuote(id: string): Promise<void> {
-    await new Promise(resolve => setTimeout(resolve, 400))
+    const response = await fetch(`/api/quotes/${id}`, {
+      method: 'DELETE',
+    })
     
-    const index = mockQuotes.findIndex(q => q.id === id)
-    if (index === -1) {
-      throw new Error('Quote not found')
+    if (!response.ok) {
+      throw new Error('Failed to delete quote')
     }
-    
-    mockQuotes.splice(index, 1)
-  },
-
-  async updateQuoteStatus(id: string, status: Quote['status']): Promise<Quote> {
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
-    const quote = mockQuotes.find(q => q.id === id)
-    if (!quote) {
-      throw new Error('Quote not found')
-    }
-    
-    quote.status = status
-    quote.updatedAt = new Date().toISOString()
-    
-    if (status === 'sent' && !quote.sentAt) {
-      quote.sentAt = new Date().toISOString()
-    }
-    
-    return quote
   },
 
   async getQuoteStats(): Promise<QuoteStats> {
-    await new Promise(resolve => setTimeout(resolve, 200))
-    
-    const total = mockQuotes.length
-    const draft = mockQuotes.filter(q => q.status === 'draft').length
-    const sent = mockQuotes.filter(q => q.status === 'sent').length
-    const accepted = mockQuotes.filter(q => q.status === 'accepted').length
-    const rejected = mockQuotes.filter(q => q.status === 'rejected').length
-    const expired = mockQuotes.filter(q => q.status === 'expired').length
-    
-    const totalValue = mockQuotes.reduce((sum, q) => sum + q.total, 0)
-    const acceptedValue = mockQuotes
-      .filter(q => q.status === 'accepted')
-      .reduce((sum, q) => sum + q.total, 0)
-    
-    const conversionRate = sent > 0 ? (accepted / sent) * 100 : 0
-    
-    return {
-      total,
-      draft,
-      sent,
-      accepted,
-      rejected,
-      expired,
-      totalValue,
-      acceptedValue,
-      conversionRate,
+    const response = await fetch('/api/quotes/stats')
+    if (!response.ok) {
+      throw new Error('Failed to fetch quote stats')
     }
+    
+    return response.json()
+  },
+
+  async markAsSent(id: string): Promise<Quote> {
+    const response = await fetch(`/api/quotes/${id}/mark-sent`, {
+      method: 'POST',
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to mark quote as sent')
+    }
+    
+    return response.json()
+  },
+
+  async exportQuote(id: string): Promise<Blob> {
+    const response = await fetch(`/api/quotes/${id}/export`)
+    if (!response.ok) {
+      throw new Error('Failed to export quote')
+    }
+    
+    return response.blob()
+  },
+
+  async updateQuoteStatus(id: string, status: Quote['status']): Promise<Quote> {
+    const response = await fetch(`/api/quotes/${id}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to update quote status')
+    }
+    
+    return response.json()
   },
 
   async duplicateQuote(id: string): Promise<Quote> {
-    await new Promise(resolve => setTimeout(resolve, 500))
+    const response = await fetch(`/api/quotes/${id}/duplicate`, {
+      method: 'POST',
+    })
     
-    const originalQuote = mockQuotes.find(q => q.id === id)
-    if (!originalQuote) {
-      throw new Error('Quote not found')
+    if (!response.ok) {
+      throw new Error('Failed to duplicate quote')
     }
     
-    const duplicatedQuote: Quote = {
-      ...originalQuote,
-      id: (mockQuotes.length + 1).toString(),
-      quoteNumber: generateQuoteNumber(),
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      sentAt: undefined,
-      items: originalQuote.items.map((item, index) => ({
-        ...item,
-        id: `item_${Date.now()}_${index}`,
-      })),
-    }
-    
-    mockQuotes.push(duplicatedQuote)
-    return duplicatedQuote
-  },
-
-  async exportQuote(id: string, format: 'pdf' | 'excel' | 'csv'): Promise<Blob> {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    const quote = mockQuotes.find(q => q.id === id)
-    if (!quote) {
-      throw new Error('Quote not found')
-    }
-    
-    // Mock export - in real implementation, this would generate actual files
-    const content = `Quote ${quote.quoteNumber}\nCustomer: ${quote.customer?.name}\nTotal: ${quote.total} SEK`
-    return new Blob([content], { type: 'text/plain' })
+    return response.json()
   },
 }
