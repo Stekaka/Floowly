@@ -312,15 +312,15 @@ function QuotesPageContent() {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Quote Management</h1>
-            <p className="text-slate-300">Create and manage professional quotes</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Offertshantering</h1>
+            <p className="text-slate-300">Skapa och hantera professionella offerter</p>
           </div>
           <Button 
             onClick={() => setViewMode('form')} 
             className="px-4 py-2"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Create Quote
+            Skapa offert
           </Button>
         </div>
 
@@ -332,7 +332,7 @@ function QuotesPageContent() {
                 <div className="flex items-center">
                   <FileText className="h-8 w-8 text-blue-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Total Quotes</p>
+                    <p className="text-sm font-medium text-muted-foreground">Totalt antal offerter</p>
                     <p className="text-2xl font-bold">{stats.total}</p>
                   </div>
                 </div>
@@ -343,7 +343,7 @@ function QuotesPageContent() {
                 <div className="flex items-center">
                   <CheckCircle className="h-8 w-8 text-green-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Accepted</p>
+                    <p className="text-sm font-medium text-muted-foreground">Accepterade</p>
                     <p className="text-2xl font-bold">{stats.accepted}</p>
                   </div>
                 </div>
@@ -354,7 +354,7 @@ function QuotesPageContent() {
                 <div className="flex items-center">
                   <TrendingUp className="h-8 w-8 text-purple-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
+                    <p className="text-sm font-medium text-muted-foreground">Konverteringsgrad</p>
                     <p className="text-2xl font-bold">{stats.conversionRate.toFixed(1)}%</p>
                   </div>
                 </div>
@@ -365,7 +365,7 @@ function QuotesPageContent() {
                 <div className="flex items-center">
                   <DollarSign className="h-8 w-8 text-orange-500" />
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-muted-foreground">Total Value</p>
+                    <p className="text-sm font-medium text-muted-foreground">Totalvärde</p>
                     <p className="text-2xl font-bold">{stats.totalValue.toLocaleString()} SEK</p>
                   </div>
                 </div>
@@ -382,7 +382,7 @@ function QuotesPageContent() {
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search quotes by number, title, or customer..."
+                    placeholder="Sök offerter efter nummer, titel eller kund..."
                     value={filters.search || ''}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
                     className="pl-10"
@@ -398,15 +398,15 @@ function QuotesPageContent() {
                   }
                 >
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filter by status" />
+                    <SelectValue placeholder="Filtrera efter status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="sent">Sent</SelectItem>
-                    <SelectItem value="accepted">Accepted</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="expired">Expired</SelectItem>
+                    <SelectItem value="all">Alla statusar</SelectItem>
+                    <SelectItem value="draft">Utkast</SelectItem>
+                    <SelectItem value="sent">Skickad</SelectItem>
+                    <SelectItem value="accepted">Accepterad</SelectItem>
+                    <SelectItem value="rejected">Avvisad</SelectItem>
+                    <SelectItem value="expired">Utgången</SelectItem>
                   </SelectContent>
                 </Select>
 

@@ -184,25 +184,25 @@ export function QuoteForm({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">
-            {quote ? `Edit Quote ${quote.quoteNumber}` : 'Create New Quote'}
+            {quote ? `Redigera offert ${quote.quoteNumber}` : 'Skapa ny offert'}
           </h2>
           <div className="flex items-center gap-4 mt-1 text-sm">
             {hasUnsavedChanges && (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <AlertCircle className="w-4 h-4" />
-                <span>Unsaved changes</span>
+                <span>Osparade ändringar</span>
               </div>
             )}
             {isDraftSaving && (
               <div className="flex items-center gap-2 text-blue-600">
                 <Clock className="w-4 h-4 animate-spin" />
-                <span>Saving draft...</span>
+                <span>Sparar utkast...</span>
               </div>
             )}
             {lastSaved && !hasUnsavedChanges && !isDraftSaving && (
               <div className="flex items-center gap-2 text-green-600">
                 <Save className="w-4 h-4" />
-                <span>Saved {lastSaved.toLocaleTimeString()}</span>
+                <span>Sparad {lastSaved.toLocaleTimeString()}</span>
               </div>
             )}
           </div>
@@ -211,7 +211,7 @@ export function QuoteForm({
           {isDraftSaving && (
             <Badge variant="outline" className="flex items-center gap-1">
               <Save className="w-3 h-3" />
-              Saving draft...
+              Sparar utkast...
             </Badge>
           )}
         </div>
@@ -223,21 +223,21 @@ export function QuoteForm({
           {/* Basic Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
+              <CardTitle>Grundläggande information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="customerId">Customer *</Label>
+                <Label htmlFor="customerId">Kund *</Label>
                 <Select
                   value={showNewCustomer ? "new" : watchedValues.customerId}
                   onValueChange={handleCustomerChange}
                   disabled={isLoading}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a customer or create new" />
+                    <SelectValue placeholder="Välj en kund eller skapa ny" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="new">+ Create New Customer</SelectItem>
+                    <SelectItem value="new">+ Skapa ny kund</SelectItem>
                     {customers.map(customer => (
                       <SelectItem key={customer.id} value={customer.id}>
                         {customer.name} {customer.company && `(${customer.company})`}
@@ -254,7 +254,7 @@ export function QuoteForm({
               {showNewCustomer && (
                 <div className="space-y-4 p-4 border rounded-lg bg-muted/20">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-medium">New Customer Details</h4>
+                    <h4 className="text-sm font-medium">Ny kundinformation</h4>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
@@ -263,18 +263,18 @@ export function QuoteForm({
                         className="rounded"
                       />
                       <Label htmlFor="saveCustomer" className="text-xs">
-                        Save customer for future use
+                        Spara kund för framtida användning
                       </Label>
                     </div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="customerName">Name *</Label>
+                      <Label htmlFor="customerName">Namn *</Label>
                       <Input
                         id="customerName"
                         {...register("customerData.name")}
-                        placeholder="Customer name"
+                        placeholder="Kundens namn"
                         disabled={isLoading}
                       />
                       {errors.customerData?.name && (
@@ -283,11 +283,11 @@ export function QuoteForm({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customerCompany">Company</Label>
+                      <Label htmlFor="customerCompany">Företag</Label>
                       <Input
                         id="customerCompany"
                         {...register("customerData.company")}
-                        placeholder="Company name"
+                        placeholder="Företagsnamn"
                         disabled={isLoading}
                       />
                     </div>
@@ -295,11 +295,11 @@ export function QuoteForm({
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="customerPhone">Phone *</Label>
+                      <Label htmlFor="customerPhone">Telefon *</Label>
                       <Input
                         id="customerPhone"
                         {...register("customerData.phone")}
-                        placeholder="Phone number"
+                        placeholder="Telefonnummer"
                         disabled={isLoading}
                       />
                       {errors.customerData?.phone && (
@@ -308,12 +308,12 @@ export function QuoteForm({
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customerEmail">Email</Label>
+                      <Label htmlFor="customerEmail">E-post</Label>
                       <Input
                         id="customerEmail"
                         type="email"
                         {...register("customerData.email")}
-                        placeholder="Email address"
+                        placeholder="E-postadress"
                         disabled={isLoading}
                       />
                       {errors.customerData?.email && (
@@ -323,42 +323,42 @@ export function QuoteForm({
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="customerStreet">Address</Label>
+                    <Label htmlFor="customerStreet">Adress</Label>
                     <Input
                       id="customerStreet"
                       {...register("customerData.address.street")}
-                      placeholder="Street address"
+                      placeholder="Gatuadress"
                       disabled={isLoading}
                     />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="customerCity">City</Label>
+                      <Label htmlFor="customerCity">Stad</Label>
                       <Input
                         id="customerCity"
                         {...register("customerData.address.city")}
-                        placeholder="City"
+                        placeholder="Stad"
                         disabled={isLoading}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customerPostalCode">Postal Code</Label>
+                      <Label htmlFor="customerPostalCode">Postnummer</Label>
                       <Input
                         id="customerPostalCode"
                         {...register("customerData.address.postalCode")}
-                        placeholder="Postal code"
+                        placeholder="Postnummer"
                         disabled={isLoading}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="customerCountry">Country</Label>
+                      <Label htmlFor="customerCountry">Land</Label>
                       <Input
                         id="customerCountry"
                         {...register("customerData.address.country")}
-                        placeholder="Country"
+                        placeholder="Land"
                         disabled={isLoading}
                       />
                     </div>
@@ -367,11 +367,11 @@ export function QuoteForm({
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="title">Quote Title *</Label>
+                <Label htmlFor="title">Offerttitel *</Label>
                 <Input
                   id="title"
                   {...register("title")}
-                  placeholder="Enter quote title"
+                  placeholder="Ange offerttitel"
                   disabled={isLoading}
                 />
                 {errors.title && (
@@ -380,11 +380,11 @@ export function QuoteForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Beskrivning</Label>
                 <Textarea
                   id="description"
                   {...register("description")}
-                  placeholder="Enter quote description"
+                  placeholder="Ange offertbeskrivning"
                   rows={3}
                   disabled={isLoading}
                 />
@@ -397,9 +397,9 @@ export function QuoteForm({
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 <div>
-                  <span>Items</span>
+                  <span>Artiklar</span>
                   <p className="text-sm text-muted-foreground font-normal mt-1">
-                    Add individual items to your quote
+                    Lägg till enskilda artiklar i din offert
                   </p>
                 </div>
                 <Button
@@ -409,7 +409,7 @@ export function QuoteForm({
                   size="sm"
                 >
                   <Plus className="w-4 h-4 mr-1" />
-                  Add Item
+                  Lägg till artikel
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -419,8 +419,8 @@ export function QuoteForm({
                   <div className="w-12 h-12 mx-auto mb-3 bg-muted/20 rounded-full flex items-center justify-center">
                     <Plus className="w-6 h-6" />
                   </div>
-                  <h3 className="text-base font-semibold mb-1">No items added yet</h3>
-                  <p className="text-sm mb-3">Start building your quote by adding items</p>
+                  <h3 className="text-base font-semibold mb-1">Inga artiklar tillagda än</h3>
+                  <p className="text-sm mb-3">Börja bygga din offert genom att lägga till artiklar</p>
                   <Button
                     type="button"
                     onClick={addItem}
@@ -429,7 +429,7 @@ export function QuoteForm({
                     size="sm"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Add Item
+                    Lägg till artikel
                   </Button>
                 </div>
               ) : (
@@ -452,7 +452,7 @@ export function QuoteForm({
                       size="sm"
                     >
                       <Plus className="w-4 h-4 mr-2" />
-                      Add Item
+                      Lägg till artikel
                     </Button>
                   </div>
                 </div>
@@ -463,26 +463,26 @@ export function QuoteForm({
           {/* Notes and Terms */}
           <Card>
             <CardHeader>
-              <CardTitle>Additional Information</CardTitle>
+              <CardTitle>Ytterligare information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="notes">Notes</Label>
+                <Label htmlFor="notes">Anteckningar</Label>
                 <Textarea
                   id="notes"
                   {...register("notes")}
-                  placeholder="Internal notes (not visible to customer)"
+                  placeholder="Interna anteckningar (inte synliga för kunden)"
                   rows={3}
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="terms">Terms & Conditions</Label>
+                <Label htmlFor="terms">Villkor</Label>
                 <Textarea
                   id="terms"
                   {...register("terms")}
-                  placeholder="Terms and conditions"
+                  placeholder="Villkor och bestämmelser"
                   rows={3}
                   disabled={isLoading}
                 />
@@ -624,7 +624,7 @@ export function QuoteForm({
           onClick={onCancel}
           disabled={isLoading}
         >
-          Cancel
+          Avbryt
         </Button>
         {onSaveDraft && (
           <Button
@@ -633,14 +633,14 @@ export function QuoteForm({
             onClick={() => handleFormSubmit(watchedValues)}
             disabled={isLoading || isDraftSaving}
           >
-            {isDraftSaving ? 'Saving...' : 'Save Draft'}
+            {isDraftSaving ? 'Sparar...' : 'Spara utkast'}
           </Button>
         )}
         <Button
           type="submit"
           disabled={isLoading || items.length === 0}
         >
-          {isLoading ? 'Saving...' : quote ? 'Update Quote' : 'Create Quote'}
+          {isLoading ? 'Sparar...' : quote ? 'Uppdatera offert' : 'Skapa offert'}
         </Button>
       </div>
     </form>

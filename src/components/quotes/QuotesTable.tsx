@@ -59,11 +59,11 @@ export function QuotesTable({
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'draft': return 'Draft'
-      case 'sent': return 'Sent'
-      case 'accepted': return 'Accepted'
-      case 'rejected': return 'Rejected'
-      case 'expired': return 'Expired'
+      case 'draft': return 'Utkast'
+      case 'sent': return 'Skickad'
+      case 'accepted': return 'Accepterad'
+      case 'rejected': return 'Avvisad'
+      case 'expired': return 'Utgången'
       default: return status
     }
   }
@@ -95,8 +95,8 @@ export function QuotesTable({
       <div className="text-center py-12">
         <div className="text-muted-foreground mb-4">
           <FileText className="w-12 h-12 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold">No quotes found</h3>
-          <p className="text-sm">Try adjusting your filters or create a new quote</p>
+          <h3 className="text-lg font-semibold">Inga offerter hittades</h3>
+          <p className="text-sm">Försök justera dina filter eller skapa en ny offert</p>
         </div>
       </div>
     )
@@ -129,13 +129,13 @@ export function QuotesTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[120px]">Quote #</TableHead>
-              <TableHead className="w-[200px]">Customer</TableHead>
-              <TableHead className="w-[150px]">Title</TableHead>
-              <TableHead className="w-[100px]">Created</TableHead>
-              <TableHead className="w-[120px]">Total</TableHead>
+              <TableHead className="w-[120px]">Offert #</TableHead>
+              <TableHead className="w-[200px]">Kund</TableHead>
+              <TableHead className="w-[150px]">Titel</TableHead>
+              <TableHead className="w-[100px]">Skapad</TableHead>
+              <TableHead className="w-[120px]">Totalt</TableHead>
               <TableHead className="w-[120px]">Status</TableHead>
-              <TableHead className="w-[200px]">Actions</TableHead>
+              <TableHead className="w-[200px]">Åtgärder</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

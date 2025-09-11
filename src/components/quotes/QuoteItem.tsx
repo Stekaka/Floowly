@@ -75,13 +75,13 @@ export function QuoteItem({
         {/* Item Name */}
         <div className="md:col-span-2">
           <Label htmlFor={`name-${item.id}`} className="text-xs text-muted-foreground mb-1 block">
-            Item Name *
+            Artikelnamn *
           </Label>
           <Input
             id={`name-${item.id}`}
             value={formData.name}
             onChange={(e) => handleFieldChange('name', e.target.value)}
-            placeholder="Enter item name"
+            placeholder="Ange artikelnamn"
             disabled={disabled}
             className={`h-9 ${!formData.name.trim() ? 'border-destructive' : ''}`}
           />
@@ -90,7 +90,7 @@ export function QuoteItem({
         {/* Quantity */}
         <div>
           <Label htmlFor={`quantity-${item.id}`} className="text-xs text-muted-foreground mb-1 block">
-            Quantity *
+            Antal *
           </Label>
           <Input
             id={`quantity-${item.id}`}
@@ -108,7 +108,7 @@ export function QuoteItem({
         {/* Unit Price */}
         <div>
           <Label htmlFor={`unitPrice-${item.id}`} className="text-xs text-muted-foreground mb-1 block">
-            Price (SEK) *
+            Pris (SEK) *
           </Label>
           <Input
             id={`unitPrice-${item.id}`}
@@ -126,7 +126,7 @@ export function QuoteItem({
         {/* Tax Rate */}
         <div>
           <Label htmlFor={`taxRate-${item.id}`} className="text-xs text-muted-foreground mb-1 block">
-            Tax Rate (%) *
+            Moms (%) *
           </Label>
           <Input
             id={`taxRate-${item.id}`}
@@ -146,13 +146,13 @@ export function QuoteItem({
       {/* Description - only show if there's content or focused */}
       <div className="mt-2">
         <Label htmlFor={`description-${item.id}`} className="text-xs text-muted-foreground mb-1 block">
-          Description
+          Beskrivning
         </Label>
         <Textarea
           id={`description-${item.id}`}
           value={formData.description}
           onChange={(e) => handleFieldChange('description', e.target.value)}
-          placeholder="Enter item description (optional)"
+          placeholder="Ange artikelbeskrivning (valfritt)"
           rows={1}
           disabled={disabled}
           className="resize-none"
@@ -164,8 +164,8 @@ export function QuoteItem({
         {/* Totals - compact */}
         <div className="flex items-center gap-3 text-sm">
           <span className="text-muted-foreground">Sub: {item.subtotal.toLocaleString('sv-SE')} SEK</span>
-          <span className="text-muted-foreground">Tax: {item.taxAmount.toLocaleString('sv-SE')} SEK</span>
-          <span className="font-semibold">Total: {item.total.toLocaleString('sv-SE')} SEK</span>
+          <span className="text-muted-foreground">Moms: {item.taxAmount.toLocaleString('sv-SE')} SEK</span>
+          <span className="font-semibold">Totalt: {item.total.toLocaleString('sv-SE')} SEK</span>
         </div>
 
         {/* Actions */}
