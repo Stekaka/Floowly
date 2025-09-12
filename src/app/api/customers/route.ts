@@ -51,7 +51,14 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json(customers);
+    // Parse JSON fields for SQLite compatibility
+    const parsedCustomers = customers.map(customer => ({
+      ...customer,
+      address: customer.address ? JSON.parse(customer.address) : null,
+      tags: customer.tags ? JSON.parse(customer.tags) : []
+    }));
+
+    return NextResponse.json(parsedCustomers);
   } catch (error) {
     console.error('Error fetching customers:', error);
     return NextResponse.json({ error: 'Failed to fetch customers' }, { status: 500 });
@@ -80,8 +87,8 @@ export async function POST(request: NextRequest) {
         company,
         email,
         phone,
-        address: address ? address : undefined,
-        tags: tags || [],
+        address: address ? JSON.stringify(address) : null,
+        tags: JSON.stringify(tags || []),
         status,
       },
       include: {
@@ -90,7 +97,14 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(newCustomer, { status: 201 });
+    // Parse JSON fields for SQLite compatibility
+    const parsedCustomer = {
+      ...newCustomer,
+      address: newCustomer.address ? JSON.parse(newCustomer.address) : null,
+      tags: newCustomer.tags ? JSON.parse(newCustomer.tags) : []
+    };
+
+    return NextResponse.json(parsedCustomer, { status: 201 });
   } catch (error) {
     console.error('Error creating customer:', error);
     return NextResponse.json({ error: 'Failed to create customer' }, { status: 500 });
@@ -119,8 +133,8 @@ export async function PUT(request: NextRequest) {
     if (company !== undefined) updateData.company = company;
     if (email !== undefined) updateData.email = email;
     if (phone !== undefined) updateData.phone = phone;
-    if (address !== undefined) updateData.address = address;
-    if (tags !== undefined) updateData.tags = tags;
+    if (address !== undefined) updateData.address = address ? JSON.stringify(address) : null;
+    if (tags !== undefined) updateData.tags = JSON.stringify(tags);
     if (status !== undefined) updateData.status = status;
 
     const updatedCustomer = await prisma.customer.update({
@@ -132,7 +146,14 @@ export async function PUT(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(updatedCustomer);
+    // Parse JSON fields for SQLite compatibility
+    const parsedCustomer = {
+      ...updatedCustomer,
+      address: updatedCustomer.address ? JSON.parse(updatedCustomer.address) : null,
+      tags: updatedCustomer.tags ? JSON.parse(updatedCustomer.tags) : []
+    };
+
+    return NextResponse.json(parsedCustomer);
   } catch (error: any) {
     console.error('Error updating customer:', error);
     if (error.code === 'P2025') {

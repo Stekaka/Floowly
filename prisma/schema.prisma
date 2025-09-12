@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Company {
@@ -57,8 +57,8 @@ model Customer {
  company   String?
  email     String?
  phone     String
- address   Json?
- tags      String[]
+  address   String?
+  tags      String @default("[]")
  status    String   @default("active")
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
@@ -74,15 +74,15 @@ model Quote {
  customerId  String
  title       String
  description String?
- items       Json
- subtotal    Decimal
- taxAmount   Decimal
- total       Decimal
- status      QuoteStatus @default(draft)
- hours       Decimal?
- materialCost Decimal?
- markupPercentage Decimal?
- profitEstimate Decimal?
+  items       String
+  subtotal    Float
+  taxAmount   Float
+  total       Float
+  status      QuoteStatus @default(draft)
+  hours       Float?
+  materialCost Float?
+  markupPercentage Float?
+  profitEstimate Float?
  expiresAt   DateTime?
  createdAt   DateTime @default(now())
  updatedAt   DateTime @updatedAt
@@ -103,9 +103,9 @@ model Job {
  endDate       DateTime
  startTime     String?
  endTime       String?
- hours         Decimal?
- materialCost  Decimal?
- quotedPrice   Decimal?
+  hours         Float?
+  materialCost  Float?
+  quotedPrice   Float?
  status        JobStatus @default(pending)
  notes         String?
  timezone      String   @default("Europe/Stockholm")
