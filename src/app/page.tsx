@@ -22,9 +22,11 @@ export default function Home() {
   useEffect(() => {
     if (status === 'loading') {
       const timer = setTimeout(() => {
-        // If still loading after 3 seconds, redirect to login
-        router.push('/login');
-      }, 3000);
+        // If still loading after 5 seconds, clear session and redirect to login
+        fetch('/api/auth/logout', { method: 'POST' })
+          .then(() => router.push('/login'))
+          .catch(() => router.push('/login'));
+      }, 5000);
       
       return () => clearTimeout(timer);
     }
@@ -54,7 +56,7 @@ export default function Home() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
           <p className="text-slate-300">Loading... Status: {status}</p>
-          <p className="text-slate-300 text-sm mt-2">Redirecting to login in {countdown} seconds...</p>
+          <p className="text-slate-300 text-sm mt-2">Clearing session and redirecting to login in {countdown} seconds...</p>
         </div>
       </div>
     );
