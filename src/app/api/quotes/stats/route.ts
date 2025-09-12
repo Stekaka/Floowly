@@ -20,6 +20,9 @@ export async function GET(request: NextRequest) {
       .filter(q => q.status === 'accepted')
       .reduce((sum, quote) => sum + Number(quote.total || 0), 0);
 
+    // Calculate conversion rate
+    const conversionRate = total > 0 ? (accepted / total) * 100 : 0;
+
     return NextResponse.json({
       total,
       draft,
@@ -29,6 +32,7 @@ export async function GET(request: NextRequest) {
       expired,
       totalValue,
       acceptedValue,
+      conversionRate,
     });
   } catch (error) {
     console.error('Error fetching quote stats:', error);

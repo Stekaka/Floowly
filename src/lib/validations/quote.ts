@@ -78,8 +78,12 @@ export const calculateItemTotals = (item: Omit<QuoteItem, 'id' | 'subtotal' | 't
 }
 
 export const calculateQuoteTotals = (items: QuoteItem[]): Pick<Quote, 'subtotal' | 'taxAmount' | 'total'> => {
-  const subtotal = Math.round(items.reduce((sum, item) => sum + item.subtotal, 0) * 100) / 100
-  const taxAmount = Math.round(items.reduce((sum, item) => sum + item.taxAmount, 0) * 100) / 100
+  if (!items || !Array.isArray(items)) {
+    return { subtotal: 0, taxAmount: 0, total: 0 }
+  }
+  
+  const subtotal = Math.round(items.reduce((sum, item) => sum + (item.subtotal || 0), 0) * 100) / 100
+  const taxAmount = Math.round(items.reduce((sum, item) => sum + (item.taxAmount || 0), 0) * 100) / 100
   const total = Math.round((subtotal + taxAmount) * 100) / 100
   
   return { subtotal, taxAmount, total }
