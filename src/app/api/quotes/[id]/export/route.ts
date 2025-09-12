@@ -1,160 +1,205 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { quoteApi } from '@/lib/api/quotes'
+import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { searchParams } = new URL(request.url)
-    const format = searchParams.get('format') || 'pdf'
+    const session = await getServerSession(authOptions);
     
-    if (!['pdf', 'excel', 'csv'].includes(format)) {
-      return NextResponse.json({ error: 'Invalid format' }, { status: 400 })
+    if (!session?.user?.companyId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const resolvedParams = await params
-    const quote = await quoteApi.getQuote(resolvedParams.id)
-    
-    if (format === 'pdf') {
-      // For now, return a simple text response
-      // In production, you would use a PDF library like puppeteer or jsPDF
-      const pdfContent = generatePDFContent(quote)
-      
-      return new NextResponse(pdfContent, {
-        headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="quote-${quote.quoteNumber}.pdf"`,
-        },
-      })
+    const { searchParams } = new URL(request.url);
+    const format = searchParams.get('format') || 'pdf';
+
+    // Fetch quote with customer data
+    const quote = await prisma.quote.findFirst({
+      where: { 
+        id: params.id,
+        // Add company isolation when customer table has companyId
+      },
+      include: {
+        customer: true,
+      },
+    });
+
+    if (!quote) {
+      return NextResponse.json({ error: 'Quote not found' }, { status: 404 });
     }
-    
-    if (format === 'excel') {
-      const excelContent = generateExcelContent(quote)
-      
-      return new NextResponse(excelContent, {
-        headers: {
-          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          'Content-Disposition': `attachment; filename="quote-${quote.quoteNumber}.xlsx"`,
-        },
-      })
-    }
-    
+
+    // Parse items if it's a JSON string (SQLite compatibility)
+    const items = typeof quote.items === 'string' ? JSON.parse(quote.items) : quote.items;
+
     if (format === 'csv') {
-      const csvContent = generateCSVContent(quote)
-      
-      return new NextResponse(csvContent, {
-        headers: {
-          'Content-Type': 'text/csv',
-          'Content-Disposition': `attachment; filename="quote-${quote.quoteNumber}.csv"`,
-        },
-      })
+      return generateCSV(quote, items);
+    } else if (format === 'excel') {
+      return generateExcel(quote, items);
+    } else {
+      return generatePDF(quote, items);
     }
-    
-    return NextResponse.json({ error: 'Format not supported' }, { status: 400 })
   } catch (error) {
-    console.error('Error exporting quote:', error)
-    return NextResponse.json({ error: 'Failed to export quote' }, { status: 500 })
+    console.error('Export error:', error);
+    return NextResponse.json({ error: 'Failed to export quote' }, { status: 500 });
   }
 }
 
-function generatePDFContent(quote: any): string {
-  // This is a simplified PDF generation
-  // In production, use a proper PDF library like puppeteer or jsPDF
-  const content = `
-QUOTE
-======
+function generateCSV(quote: any, items: any[]) {
+  const csvContent = [
+    ['Quote ID', 'Title', 'Customer', 'Status', 'Total', 'Created'],
+    [quote.id, quote.title, quote.customer?.name || 'N/A', quote.status, quote.total, quote.createdAt],
+    [''],
+    ['Items'],
+    ['Name', 'Description', 'Quantity', 'Unit Price', 'Tax Rate', 'Subtotal', 'Tax Amount', 'Total'],
+    ...items.map(item => [
+      item.name,
+      item.description,
+      item.quantity,
+      item.unitPrice,
+      item.taxRate,
+      item.subtotal,
+      item.taxAmount,
+      item.total
+    ])
+  ].map(row => row.join(',')).join('\n');
 
-Quote Number: ${quote.quoteNumber}
-Date: ${new Date(quote.createdAt).toLocaleDateString('sv-SE')}
-Customer: ${quote.customer?.name}
-${quote.customer?.company ? `Company: ${quote.customer.company}` : ''}
-${quote.customer?.phone ? `Phone: ${quote.customer.phone}` : ''}
-${quote.customer?.email ? `Email: ${quote.customer.email}` : ''}
-
-Title: ${quote.title}
-${quote.description ? `Description: ${quote.description}` : ''}
-
-ITEMS:
-------
-${quote.items.map((item: any, index: number) => `
-${index + 1}. ${item.name}
-   ${item.description ? `   ${item.description}` : ''}
-   Quantity: ${item.quantity}
-   Unit Price: ${item.unitPrice.toLocaleString('sv-SE')} SEK
-   Tax Rate: ${item.taxRate}%
-   Subtotal: ${item.subtotal.toLocaleString('sv-SE')} SEK
-   Tax: ${item.taxAmount.toLocaleString('sv-SE')} SEK
-   Total: ${item.total.toLocaleString('sv-SE')} SEK
-`).join('')}
-
-SUMMARY:
---------
-Subtotal: ${quote.subtotal.toLocaleString('sv-SE')} SEK
-Tax: ${quote.taxAmount.toLocaleString('sv-SE')} SEK
-TOTAL: ${quote.total.toLocaleString('sv-SE')} SEK
-
-${quote.terms ? `
-TERMS & CONDITIONS:
-------------------
-${quote.terms}
-` : ''}
-
-${quote.expiresAt ? `
-This quote expires on: ${new Date(quote.expiresAt).toLocaleDateString('sv-SE')}
-` : ''}
-
-Thank you for your business!
-  `.trim()
-  
-  return content
+  return new NextResponse(csvContent, {
+    headers: {
+      'Content-Type': 'text/csv',
+      'Content-Disposition': `attachment; filename="quote-${quote.id}.csv"`,
+    },
+  });
 }
 
-function generateExcelContent(quote: any): string {
-  // Simplified Excel content - in production, use a proper Excel library
-  const content = `
-Quote Number,${quote.quoteNumber}
-Date,${new Date(quote.createdAt).toLocaleDateString('sv-SE')}
-Customer,${quote.customer?.name}
-Company,${quote.customer?.company || ''}
-Phone,${quote.customer?.phone || ''}
-Email,${quote.customer?.email || ''}
-Title,${quote.title}
-Description,${quote.description || ''}
+function generateExcel(quote: any, items: any[]) {
+  // For now, return CSV format with Excel extension
+  // In production, you'd use a library like xlsx
+  const csvContent = [
+    ['Quote ID', 'Title', 'Customer', 'Status', 'Total', 'Created'],
+    [quote.id, quote.title, quote.customer?.name || 'N/A', quote.status, quote.total, quote.createdAt],
+    [''],
+    ['Items'],
+    ['Name', 'Description', 'Quantity', 'Unit Price', 'Tax Rate', 'Subtotal', 'Tax Amount', 'Total'],
+    ...items.map(item => [
+      item.name,
+      item.description,
+      item.quantity,
+      item.unitPrice,
+      item.taxRate,
+      item.subtotal,
+      item.taxAmount,
+      item.total
+    ])
+  ].map(row => row.join(',')).join('\n');
 
-Item Name,Description,Quantity,Unit Price,Tax Rate,Subtotal,Tax Amount,Total
-${quote.items.map((item: any) => 
-  `${item.name},${item.description || ''},${item.quantity},${item.unitPrice},${item.taxRate},${item.subtotal},${item.taxAmount},${item.total}`
-).join('\n')}
-
-Subtotal,${quote.subtotal}
-Tax,${quote.taxAmount}
-TOTAL,${quote.total}
-  `.trim()
-  
-  return content
+  return new NextResponse(csvContent, {
+    headers: {
+      'Content-Type': 'application/vnd.ms-excel',
+      'Content-Disposition': `attachment; filename="quote-${quote.id}.xls"`,
+    },
+  });
 }
 
-function generateCSVContent(quote: any): string {
-  const content = `
-Quote Number,${quote.quoteNumber}
-Date,${new Date(quote.createdAt).toLocaleDateString('sv-SE')}
-Customer,${quote.customer?.name}
-Company,${quote.customer?.company || ''}
-Phone,${quote.customer?.phone || ''}
-Email,${quote.customer?.email || ''}
-Title,${quote.title}
-Description,${quote.description || ''}
+function generatePDF(quote: any, items: any[]) {
+  // Generate HTML that can be printed as PDF
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Quote ${quote.id}</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
+        .company-info { float: right; text-align: right; }
+        .customer-info { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .total-row { font-weight: bold; background-color: #f9f9f9; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h1>OFFERT</h1>
+        <div class="company-info">
+          <h3>Floowly</h3>
+          <p>Premium Workflow Management</p>
+        </div>
+      </div>
+      
+      <div class="customer-info">
+        <h3>Kundinformation</h3>
+        <p><strong>Namn:</strong> ${quote.customer?.name || 'N/A'}</p>
+        <p><strong>Företag:</strong> ${quote.customer?.company || 'N/A'}</p>
+        <p><strong>E-post:</strong> ${quote.customer?.email || 'N/A'}</p>
+        <p><strong>Telefon:</strong> ${quote.customer?.phone || 'N/A'}</p>
+      </div>
+      
+      <div>
+        <h3>Offertinformation</h3>
+        <p><strong>Offertnummer:</strong> ${quote.id}</p>
+        <p><strong>Titel:</strong> ${quote.title}</p>
+        <p><strong>Beskrivning:</strong> ${quote.description || 'N/A'}</p>
+        <p><strong>Status:</strong> ${quote.status}</p>
+        <p><strong>Skapad:</strong> ${new Date(quote.createdAt).toLocaleDateString('sv-SE')}</p>
+        <p><strong>Giltig till:</strong> ${quote.expiresAt ? new Date(quote.expiresAt).toLocaleDateString('sv-SE') : 'N/A'}</p>
+      </div>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Artikel</th>
+            <th>Beskrivning</th>
+            <th>Antal</th>
+            <th>Enhetspris</th>
+            <th>Moms %</th>
+            <th>Delsumma</th>
+            <th>Moms</th>
+            <th>Totalt</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${items.map(item => `
+            <tr>
+              <td>${item.name}</td>
+              <td>${item.description}</td>
+              <td>${item.quantity}</td>
+              <td>${item.unitPrice.toLocaleString()} SEK</td>
+              <td>${item.taxRate}%</td>
+              <td>${item.subtotal.toLocaleString()} SEK</td>
+              <td>${item.taxAmount.toLocaleString()} SEK</td>
+              <td>${item.total.toLocaleString()} SEK</td>
+            </tr>
+          `).join('')}
+        </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td colspan="5"><strong>SUBTOTAL</strong></td>
+            <td><strong>${quote.subtotal.toLocaleString()} SEK</strong></td>
+            <td><strong>${quote.taxAmount.toLocaleString()} SEK</strong></td>
+            <td><strong>${quote.total.toLocaleString()} SEK</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+      
+      <div class="footer">
+        <p><strong>Totalt att betala:</strong> ${quote.total.toLocaleString()} SEK</p>
+        <p><em>Denna offert är giltig i 30 dagar från ovanstående datum.</em></p>
+      </div>
+    </body>
+    </html>
+  `;
 
-Item Name,Description,Quantity,Unit Price,Tax Rate,Subtotal,Tax Amount,Total
-${quote.items.map((item: any) => 
-  `${item.name},${item.description || ''},${item.quantity},${item.unitPrice},${item.taxRate},${item.subtotal},${item.taxAmount},${item.total}`
-).join('\n')}
-
-Subtotal,${quote.subtotal}
-Tax,${quote.taxAmount}
-TOTAL,${quote.total}
-  `.trim()
-  
-  return content
+  return new NextResponse(html, {
+    headers: {
+      'Content-Type': 'text/html',
+      'Content-Disposition': `attachment; filename="quote-${quote.id}.html"`,
+    },
+  });
 }
