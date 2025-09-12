@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [countdown, setCountdown] = useState(3);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -17,13 +18,43 @@ export default function Home() {
     }
   }, [status, router]);
 
+  // Add timeout for loading state
+  useEffect(() => {
+    if (status === 'loading') {
+      const timer = setTimeout(() => {
+        // If still loading after 3 seconds, redirect to login
+        router.push('/login');
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [status, router]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (status === 'loading') {
+      const interval = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      return () => clearInterval(interval);
+    }
+  }, [status]);
+
   // Always show loading while checking authentication
   if (status === 'loading') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
-          <p className="text-slate-300">Loading...</p>
+          <p className="text-slate-300">Loading... Status: {status}</p>
+          <p className="text-slate-300 text-sm mt-2">Redirecting to login in {countdown} seconds...</p>
         </div>
       </div>
     );
