@@ -50,7 +50,7 @@ async function main() {
         postalCode: '111 22',
         country: 'Sweden',
       }),
-      tags: ['vip', 'repeat'],
+      tags: JSON.stringify(['vip', 'repeat']),
       status: 'active',
     },
   });
@@ -70,7 +70,7 @@ async function main() {
         postalCode: '412 58',
         country: 'Sweden',
       }),
-      tags: ['new', 'corporate'],
+      tags: JSON.stringify(['new', 'corporate']),
       status: 'prospect',
     },
   });

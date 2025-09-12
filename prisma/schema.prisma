@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
- provider = "postgresql"
- url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Company {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   name      String   @unique
   domain    String?
   plan      String   @default("professional")
@@ -25,7 +25,7 @@ model Company {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   email     String   @unique
   password  String
   name      String?
@@ -44,13 +44,13 @@ model User {
 }
 
 model Customer {
- id        String   @id @default(uuid())
+ id        String   @id @default(cuid())
  name      String
  company   String?
  email     String?
  phone     String
- address   Json?
- tags      String[]
+ address   String?  // Changed from Json to String for SQLite compatibility
+ tags      String   @default("[]") // Changed from String[] to String for SQLite compatibility
  status    String   @default("active")
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
@@ -62,19 +62,19 @@ model Customer {
 }
 
 model Quote {
- id          String   @id @default(uuid())
+ id          String   @id @default(cuid())
  customerId  String
  title       String
  description String?
- items       Json
- subtotal    Decimal
- taxAmount   Decimal
- total       Decimal
+ items       String   // Changed from Json to String for SQLite compatibility
+ subtotal    Float    // Changed from Decimal to Float for SQLite compatibility
+ taxAmount   Float    // Changed from Decimal to Float for SQLite compatibility
+ total       Float    // Changed from Decimal to Float for SQLite compatibility
  status      QuoteStatus @default(draft)
- hours       Decimal?
- materialCost Decimal?
- markupPercentage Decimal?
- profitEstimate Decimal?
+ hours       Float?    // Changed from Decimal to Float for SQLite compatibility
+ materialCost Float?   // Changed from Decimal to Float for SQLite compatibility
+ markupPercentage Float? // Changed from Decimal to Float for SQLite compatibility
+ profitEstimate Float? // Changed from Decimal to Float for SQLite compatibility
  expiresAt   DateTime?
  createdAt   DateTime @default(now())
  updatedAt   DateTime @updatedAt
@@ -86,7 +86,7 @@ model Quote {
 }
 
 model Job {
- id            String   @id @default(uuid())
+ id            String   @id @default(cuid())
  customerId    String
  quoteId       String?
  title         String
@@ -95,9 +95,9 @@ model Job {
  endDate       DateTime
  startTime     String?
  endTime       String?
- hours         Decimal?
- materialCost  Decimal?
- quotedPrice   Decimal?
+ hours         Float?    // Changed from Decimal to Float for SQLite compatibility
+ materialCost  Float?    // Changed from Decimal to Float for SQLite compatibility
+ quotedPrice   Float?    // Changed from Decimal to Float for SQLite compatibility
  status        JobStatus @default(pending)
  notes         String?
  timezone      String   @default("Europe/Stockholm")

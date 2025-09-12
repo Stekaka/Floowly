@@ -22,10 +22,11 @@ export async function GET(request: NextRequest) {
       where.status = status;
     }
 
-    if (tags) {
-      const tagArray = tags.split(',');
-      where.tags = { hasSome: tagArray };
-    }
+    // Note: Tag filtering temporarily disabled for SQLite compatibility
+    // if (tags) {
+    //   const tagArray = tags.split(',');
+    //   where.tags = { hasSome: tagArray };
+    // }
 
     const customers = await prisma.customer.findMany({
       where,
@@ -80,8 +81,8 @@ export async function POST(request: NextRequest) {
         company,
         email,
         phone,
-        address: address ? address : undefined,
-        tags,
+        address: address ? JSON.stringify(address) : undefined,
+        tags: JSON.stringify(tags || []),
         status,
       },
       include: {
@@ -119,8 +120,8 @@ export async function PUT(request: NextRequest) {
     if (company !== undefined) updateData.company = company;
     if (email !== undefined) updateData.email = email;
     if (phone !== undefined) updateData.phone = phone;
-    if (address !== undefined) updateData.address = address;
-    if (tags !== undefined) updateData.tags = tags;
+    if (address !== undefined) updateData.address = JSON.stringify(address);
+    if (tags !== undefined) updateData.tags = JSON.stringify(tags);
     if (status !== undefined) updateData.status = status;
 
     const updatedCustomer = await prisma.customer.update({
