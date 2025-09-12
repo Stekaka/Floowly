@@ -25,6 +25,9 @@ export function TeamManagement() {
 
   const { data: session } = useSession()
   const currentUser = session?.user
+  
+  // Check if user is admin
+  const isAdmin = currentUser?.role === 'admin'
 
   // Fetch users
   const { data: users = [], isLoading } = useQuery({
@@ -223,17 +226,63 @@ export function TeamManagement() {
       {/* Search */}
       <Card>
         <CardContent className="p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Sök användare..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+          <div className="flex justify-between items-center gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="Sök användare..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            {isAdmin && (
+              <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
+                <DialogTrigger asChild>
+                  <Button>
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Lägg till användare
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Lägg till ny användare</DialogTitle>
+                  </DialogHeader>
+                  {/* Invite form will be added here */}
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </CardContent>
       </Card>
+
+      {/* Company Information */}
+      {users.length > 0 && users[0].company && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Building className="w-5 h-5" />
+              Företagsinformation
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-muted-foreground">Företagsnamn</Label>
+                <p className="text-lg font-semibold">{users[0].company.name}</p>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-muted-foreground">Plan</Label>
+                <p className="text-lg font-semibold capitalize">{users[0].company.plan}</p>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-muted-foreground">Max användare</Label>
+                <p className="text-lg font-semibold">{users[0].company.maxUsers}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Users Table */}
       <Card>
