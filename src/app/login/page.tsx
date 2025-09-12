@@ -201,11 +201,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Demo Info */}
-        <div className="mt-6 glass rounded-lg p-4 text-center">
-          <h3 className="text-slate-300 font-medium mb-1">Demo-inloggning</h3>
-          <p className="text-slate-400 text-sm">E-post: admin@floowly.com | Lösenord: admin123</p>
-        </div>
       </div>
     </div>
   );
