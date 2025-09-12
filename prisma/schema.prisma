@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Company {
@@ -57,8 +57,8 @@ model Customer {
  company   String?
  email     String?
  phone     String
- address   String?  // Changed from Json to String for SQLite compatibility
- tags      String   @default("[]") // Changed from String[] to String for SQLite compatibility
+ address   Json?
+ tags      String[]
  status    String   @default("active")
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
@@ -74,15 +74,15 @@ model Quote {
  customerId  String
  title       String
  description String?
- items       String   // Changed from Json to String for SQLite compatibility
- subtotal    Float    // Changed from Decimal to Float for SQLite compatibility
- taxAmount   Float    // Changed from Decimal to Float for SQLite compatibility
- total       Float    // Changed from Decimal to Float for SQLite compatibility
+ items       Json
+ subtotal    Decimal
+ taxAmount   Decimal
+ total       Decimal
  status      QuoteStatus @default(draft)
- hours       Float?    // Changed from Decimal to Float for SQLite compatibility
- materialCost Float?   // Changed from Decimal to Float for SQLite compatibility
- markupPercentage Float? // Changed from Decimal to Float for SQLite compatibility
- profitEstimate Float? // Changed from Decimal to Float for SQLite compatibility
+ hours       Decimal?
+ materialCost Decimal?
+ markupPercentage Decimal?
+ profitEstimate Decimal?
  expiresAt   DateTime?
  createdAt   DateTime @default(now())
  updatedAt   DateTime @updatedAt
@@ -103,9 +103,9 @@ model Job {
  endDate       DateTime
  startTime     String?
  endTime       String?
- hours         Float?    // Changed from Decimal to Float for SQLite compatibility
- materialCost  Float?    // Changed from Decimal to Float for SQLite compatibility
- quotedPrice   Float?    // Changed from Decimal to Float for SQLite compatibility
+ hours         Decimal?
+ materialCost  Decimal?
+ quotedPrice   Decimal?
  status        JobStatus @default(pending)
  notes         String?
  timezone      String   @default("Europe/Stockholm")

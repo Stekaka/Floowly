@@ -18,19 +18,27 @@ export default function LoginPage() {
     setIsLoading(true);
     setError('');
     
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
-    
-    if (result?.error) {
-      setError('Ogiltiga inloggningsuppgifter');
-    } else {
-      router.push('/dashboard');
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+      
+      if (result?.error) {
+        console.error('Login error:', result.error);
+        setError('Ogiltiga inloggningsuppgifter. Kontrollera din e-post och lösenord.');
+      } else if (result?.ok) {
+        router.push('/dashboard');
+      } else {
+        setError('Ett oväntat fel uppstod. Försök igen.');
+      }
+    } catch (err) {
+      console.error('Login exception:', err);
+      setError('Ett oväntat fel uppstod. Försök igen.');
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -62,12 +70,16 @@ export default function LoginPage() {
         });
         
         if (result?.error) {
-          setError('Registrering lyckades men inloggning misslyckades. Försök logga in manuellt.');
-        } else {
+          console.error('Auto-login after registration failed:', result.error);
+          setError('Registrering lyckades men automatisk inloggning misslyckades. Logga in manuellt med dina uppgifter.');
+        } else if (result?.ok) {
           router.push('/dashboard');
+        } else {
+          setError('Registrering lyckades men automatisk inloggning misslyckades. Logga in manuellt med dina uppgifter.');
         }
       } else {
-        setError(data.error || 'Registrering misslyckades');
+        console.error('Registration failed:', data);
+        setError(data.error || 'Registrering misslyckades. Kontrollera att alla fält är korrekt ifyllda.');
       }
     } catch (err) {
       setError('Något gick fel');
