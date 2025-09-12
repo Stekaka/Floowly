@@ -174,7 +174,7 @@ export function CustomerDrawer({
                       <CardTitle>Tags</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      {customer.tags.length > 0 ? (
+                      {customer.tags && customer.tags.length > 0 ? (
                         <div className="flex flex-wrap gap-2">
                           {customer.tags.map((tag) => (
                             <Badge key={tag} variant="outline">
@@ -251,7 +251,7 @@ export function CustomerDrawer({
                     </div>
 
                     <div className="space-y-3">
-                      {customer.notes.length > 0 ? (
+                      {customer.notes && customer.notes.length > 0 ? (
                         customer.notes.map((note) => (
                           <Card key={note.id}>
                             <CardContent className="pt-4">
@@ -283,7 +283,7 @@ export function CustomerDrawer({
                 </TabsContent>
 
                 <TabsContent value="quotes" className="space-y-4">
-                  {customer.quotes.length > 0 ? (
+                  {customer.quotes && customer.quotes.length > 0 ? (
                     <div className="space-y-3">
                       {customer.quotes.map((quote) => (
                         <Card key={quote.id}>
@@ -320,7 +320,7 @@ export function CustomerDrawer({
                 </TabsContent>
 
                 <TabsContent value="orders" className="space-y-4">
-                  {customer.orders.length > 0 ? (
+                  {customer.orders && customer.orders.length > 0 ? (
                     <div className="space-y-3">
                       {customer.orders.map((order) => (
                         <Card key={order.id}>

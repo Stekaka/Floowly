@@ -102,7 +102,7 @@ export function CustomerCard({
         </div>
 
         {/* Tags */}
-        {customer.tags.length > 0 && (
+        {customer.tags && customer.tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {customer.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="outline" className="text-xs">
@@ -145,19 +145,19 @@ export function CustomerCard({
         <div className="grid grid-cols-3 gap-4 mb-4 p-3 bg-muted/50 rounded-lg">
           <div className="text-center">
             <div className="text-lg font-semibold text-primary">
-              {customer.quotes.length}
+              {customer.quotes?.length || 0}
             </div>
             <div className="text-xs text-muted-foreground">Offerter</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-semibold text-primary">
-              {customer.orders.length}
+              {customer.orders?.length || 0}
             </div>
             <div className="text-xs text-muted-foreground">Beställningar</div>
           </div>
           <div className="text-center">
             <div className="text-lg font-semibold text-primary">
-              {customer.notes.length}
+              {customer.notes?.length || 0}
             </div>
             <div className="text-xs text-muted-foreground">Anteckningar</div>
           </div>

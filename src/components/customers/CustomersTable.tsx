@@ -155,7 +155,7 @@ export function CustomersTable({
                         {tag}
                       </Badge>
                     ))}
-                    {customer.tags.length > 2 && (
+                    {customer.tags && customer.tags.length > 2 && (
                       <Badge variant="outline" className="text-xs">
                         +{customer.tags.length - 2}
                       </Badge>
@@ -167,15 +167,15 @@ export function CustomersTable({
                   <div className="text-sm space-y-1">
                     <div className="flex justify-between">
                       <span>Quotes:</span>
-                      <span className="font-medium">{customer.quotes.length}</span>
+                      <span className="font-medium">{customer.quotes?.length || 0}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Orders:</span>
-                      <span className="font-medium">{customer.orders.length}</span>
+                      <span className="font-medium">{customer.orders?.length || 0}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Notes:</span>
-                      <span className="font-medium">{customer.notes.length}</span>
+                      <span className="font-medium">{customer.notes?.length || 0}</span>
                     </div>
                   </div>
                 </TableCell>

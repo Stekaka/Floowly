@@ -68,15 +68,15 @@ export default function DashboardPage() {
   // Calculate stats when data is available
   useEffect(() => {
     if (status === 'authenticated' && customers && quotes && jobs && teamUsers) {
-      const totalRevenue = jobs.reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
-      const activeUsers = teamUsers.filter((user: any) => user.status === 'active').length;
+      const totalRevenue = (jobs || []).reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
+      const activeUsers = (teamUsers || []).filter((user: any) => user.status === 'active').length;
 
       setStats({
-        totalCustomers: customers.length,
-        totalQuotes: quotes.length,
-        totalJobs: jobs.length,
+        totalCustomers: (customers || []).length,
+        totalQuotes: (quotes || []).length,
+        totalJobs: (jobs || []).length,
         totalRevenue,
-        totalUsers: teamUsers.length,
+        totalUsers: (teamUsers || []).length,
         activeUsers,
       });
       setLoading(false);
