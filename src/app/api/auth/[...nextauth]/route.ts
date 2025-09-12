@@ -33,6 +33,7 @@ const authOptions: NextAuthOptions = {
 
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
+            include: { company: true },
           });
 
           if (!user) {
@@ -50,7 +51,9 @@ const authOptions: NextAuthOptions = {
           return { 
             id: user.id, 
             email: user.email, 
-            name: user.name || user.fullName 
+            name: user.name || user.fullName,
+            companyId: user.companyId,
+            role: user.role
           };
         } catch (error) {
           console.error('Auth error:', error);
@@ -74,12 +77,16 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
         token.id = user.id;
+        token.companyId = user.companyId;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.companyId = token.companyId as string;
+        session.user.role = token.role as string;
       }
       return session;
     },

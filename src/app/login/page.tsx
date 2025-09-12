@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
@@ -56,6 +57,7 @@ export default function LoginPage() {
           name,
           email,
           password,
+          companyName,
         }),
       });
 
@@ -131,18 +133,33 @@ export default function LoginPage() {
 
           <form onSubmit={isRegistering ? handleRegister : handleLogin} className="space-y-4">
             {isRegistering && (
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Fullständigt namn
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="input w-full"
-                  placeholder="Ange ditt fullständiga namn"
-                />
-              </div>
+              <>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Företagsnamn *
+                  </label>
+                  <input
+                    type="text"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                    className="input w-full"
+                    placeholder="Ange företagsnamn"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Fullständigt namn
+                  </label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="input w-full"
+                    placeholder="Ange ditt fullständiga namn"
+                  />
+                </div>
+              </>
             )}
 
             <div>

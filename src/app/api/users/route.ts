@@ -1,22 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.companyId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
 
     if (email) {
-      // Get user by email
-      const user = await prisma.user.findUnique({
-        where: { email },
+      // Get user by email (only from same company)
+      const user = await prisma.user.findFirst({
+        where: { 
+          email,
+          companyId: session.user.companyId
+        },
       });
       return NextResponse.json(user ? [user] : []);
     }
 
-    // Get all users
+    // Get all users from the same company
     const users = await prisma.user.findMany({
+      where: { companyId: session.user.companyId },
+      include: { company: true },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -29,6 +42,17 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    
+    if (!session?.user?.companyId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Only admins can create users
+    if (session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Only admins can create users' }, { status: 403 });
+    }
+
     const data = await request.json();
     const { email, name, role, phone, password } = data;
 
@@ -49,38 +73,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
     }
 
-    // Get or create default company if no companyId provided
-    let companyId = data.companyId;
-    if (!companyId) {
-      const defaultCompany = await prisma.company.findFirst({
-        where: { name: 'Default Company' }
-      });
-      
-      if (!defaultCompany) {
-        const newCompany = await prisma.company.create({
-          data: {
-            name: 'Default Company',
-            plan: 'professional',
-            maxUsers: 50,
-          }
-        });
-        companyId = newCompany.id;
-      } else {
-        companyId = defaultCompany.id;
-      }
-    }
-
-    // Create user
+    // Create user in the same company as the admin
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
-        role: role || 'user',
+        role: role || 'employee',
         phone: phone || null,
         status: 'active',
-        companyId,
+        companyId: session.user.companyId,
       },
+      include: { company: true },
     });
 
     return NextResponse.json(user, { status: 201 });
