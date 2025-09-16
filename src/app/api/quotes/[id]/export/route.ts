@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -14,13 +14,14 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     const { searchParams } = new URL(request.url);
     const format = searchParams.get('format') || 'pdf';
 
     // Fetch quote with customer data
     const quote = await prisma.quote.findFirst({
       where: { 
-        id: params.id,
+        id: resolvedParams.id,
         // Add company isolation when customer table has companyId
       },
       include: {

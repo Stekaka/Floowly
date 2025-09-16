@@ -3,11 +3,12 @@ import { prisma } from '@/lib/prisma';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { status } = await request.json();
-    const { id } = params;
+    const resolvedParams = await params;
+    const { id } = resolvedParams;
 
     if (!id) {
       return NextResponse.json({ error: 'Quote ID is required' }, { status: 400 });
