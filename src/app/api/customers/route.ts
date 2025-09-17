@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
     const parsedCustomers = customers.map(customer => ({
       ...customer,
       address: customer.address && typeof customer.address === 'string' ? JSON.parse(customer.address) : customer.address,
-      tags: customer.tags && typeof customer.tags === 'string' ? JSON.parse(customer.tags) : customer.tags
+      tags: customer.tags || []
     }));
 
     return NextResponse.json(parsedCustomers);
@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
         email,
         phone,
         address: address ? JSON.stringify(address) : undefined,
-        tags: JSON.stringify(tags || []),
+        tags: tags || [],
         status,
       },
       include: {
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     const parsedCustomer = {
       ...newCustomer,
       address: newCustomer.address && typeof newCustomer.address === 'string' ? JSON.parse(newCustomer.address) : newCustomer.address,
-      tags: newCustomer.tags && typeof newCustomer.tags === 'string' ? JSON.parse(newCustomer.tags) : newCustomer.tags
+      tags: newCustomer.tags || []
     };
 
     return NextResponse.json(parsedCustomer, { status: 201 });
@@ -145,7 +145,7 @@ export async function PUT(request: NextRequest) {
     if (email !== undefined) updateData.email = email;
     if (phone !== undefined) updateData.phone = phone;
     if (address !== undefined) updateData.address = address ? JSON.stringify(address) : undefined;
-    if (tags !== undefined) updateData.tags = JSON.stringify(tags);
+    if (tags !== undefined) updateData.tags = tags;
     if (status !== undefined) updateData.status = status;
 
     const updatedCustomer = await prisma.customer.update({
@@ -161,7 +161,7 @@ export async function PUT(request: NextRequest) {
     const parsedCustomer = {
       ...updatedCustomer,
       address: updatedCustomer.address && typeof updatedCustomer.address === 'string' ? JSON.parse(updatedCustomer.address) : updatedCustomer.address,
-      tags: updatedCustomer.tags && typeof updatedCustomer.tags === 'string' ? JSON.parse(updatedCustomer.tags) : updatedCustomer.tags
+      tags: updatedCustomer.tags || []
     };
 
     return NextResponse.json(parsedCustomer);
