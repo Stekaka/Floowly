@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Only admins can create users
-    if (session.user.role !== 'admin') {
+    if ((session.user as any).role !== 'admin') {
       return NextResponse.json({ error: 'Only admins can create users' }, { status: 403 });
     }
 
