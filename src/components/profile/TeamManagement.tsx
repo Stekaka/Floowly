@@ -257,7 +257,7 @@ export function TeamManagement() {
       </Card>
 
       {/* Company Information */}
-      {users.length > 0 && users[0].company && (
+      {users.length > 0 && (users[0] as any).company && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -269,15 +269,15 @@ export function TeamManagement() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <Label className="text-sm font-medium text-muted-foreground">Företagsnamn</Label>
-                <p className="text-lg font-semibold">{users[0].company.name}</p>
+                <p className="text-lg font-semibold">{(users[0] as any).company.name}</p>
               </div>
               <div>
                 <Label className="text-sm font-medium text-muted-foreground">Plan</Label>
-                <p className="text-lg font-semibold capitalize">{users[0].company.plan}</p>
+                <p className="text-lg font-semibold capitalize">{(users[0] as any).company.plan}</p>
               </div>
               <div>
                 <Label className="text-sm font-medium text-muted-foreground">Max användare</Label>
-                <p className="text-lg font-semibold">{users[0].company.maxUsers}</p>
+                <p className="text-lg font-semibold">{(users[0] as any).company.maxUsers}</p>
               </div>
             </div>
           </CardContent>
