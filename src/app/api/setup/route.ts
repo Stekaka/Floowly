@@ -36,8 +36,8 @@ export async function POST(request: NextRequest) {
         company: 'Acme Corp',
         email: 'john@acme.com',
         phone: '+46 70 123 4567',
-        address: { street: 'Storgatan 1', city: 'Stockholm', postalCode: '111 22', country: 'Sweden' },
-        tags: ["vip", "repeat"],
+        address: 'Storgatan 1, 111 22 Stockholm, Sweden',
+        tags: JSON.stringify(["vip", "repeat"]),
         status: 'active',
       },
     });
@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
         company: 'Tech Solutions AB',
         email: 'jane@techsolutions.se',
         phone: '+46 70 987 6543',
-        address: { street: 'Teknikgatan 15', city: 'Göteborg', postalCode: '412 58', country: 'Sweden' },
-        tags: ["new", "corporate"],
+        address: 'Teknikgatan 15, 412 58 Göteborg, Sweden',
+        tags: JSON.stringify(["new", "corporate"]),
         status: 'prospect',
       },
     });
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         customerId: customer1.id,
         title: 'BMW X5 Full Wrap',
         description: 'Complete vehicle wrap with matte black vinyl',
-        items: [
+        items: JSON.stringify([
           {
             id: 'item1',
             name: 'Full Vehicle Wrap',
@@ -82,10 +82,10 @@ export async function POST(request: NextRequest) {
             taxAmount: 1250,
             total: 6250,
           }
-        ],
-        subtotal: 25000.00,
-        taxAmount: 6250.00,
-        total: 31250.00,
+        ]),
+        subtotal: 25000,
+        taxAmount: 6250,
+        total: 31250,
         status: 'sent',
         hours: 16,
         materialCost: 15000,
