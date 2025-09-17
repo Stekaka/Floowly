@@ -7,6 +7,6 @@
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmc2dzYXl0aXF2ZGNjdmZocWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1NzQyNjgsImV4cCI6MjA3MzE1MDI2OH0.lZypuC-MYM7p-g_Ql-QwLoFdqRUcmLvrFdxDW-GDq6w",
     "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmc2dzYXl0aXF2ZGNjdmZocWxtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzU3NDI2OCwiZXhwIjoyMDczMTUwMjY4fQ.lbcp2cNlwVv9MdrACzEQF5UYt--Nf5iWXVFGZlvxmWI"
   },
-  "buildCommand": "npx prisma generate && npx prisma db push && npm run build",
+  "buildCommand": "npx prisma generate && npx prisma db push --accept-data-loss && npm run build",
   "outputDirectory": ".next"
 }
