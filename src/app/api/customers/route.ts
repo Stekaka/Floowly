@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         company,
         email,
         phone,
-        address: address ? JSON.stringify(address) : null,
+        address: address ? JSON.stringify(address) : undefined,
         tags: JSON.stringify(tags || []),
         status,
       },
@@ -144,7 +144,7 @@ export async function PUT(request: NextRequest) {
     if (company !== undefined) updateData.company = company;
     if (email !== undefined) updateData.email = email;
     if (phone !== undefined) updateData.phone = phone;
-    if (address !== undefined) updateData.address = address ? JSON.stringify(address) : null;
+    if (address !== undefined) updateData.address = address ? JSON.stringify(address) : undefined;
     if (tags !== undefined) updateData.tags = JSON.stringify(tags);
     if (status !== undefined) updateData.status = status;
 
