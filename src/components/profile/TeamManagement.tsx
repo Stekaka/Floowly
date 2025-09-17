@@ -27,7 +27,7 @@ export function TeamManagement() {
   const currentUser = session?.user
   
   // Check if user is admin
-  const isAdmin = currentUser?.role === 'admin'
+  const isAdmin = (currentUser as any)?.role === 'admin'
 
   // Fetch users
   const { data: users = [], isLoading } = useQuery({
