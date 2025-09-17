@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.companyId) {
+    if (!session?.user || !(session.user as any).companyId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       const user = await prisma.user.findFirst({
         where: { 
           email,
-          companyId: session.user.companyId
+          companyId: (session.user as any).companyId
         },
       });
       return NextResponse.json(user ? [user] : []);
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     // Get all users from the same company
     const users = await prisma.user.findMany({
-      where: { companyId: session.user.companyId },
+      where: { companyId: (session.user as any).companyId },
       include: { company: true },
       orderBy: { createdAt: 'desc' },
     });
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.companyId) {
+    if (!session?.user || !(session.user as any).companyId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         role: role || 'employee',
         phone: phone || null,
         status: 'active',
-        companyId: session.user.companyId,
+        companyId: (session.user as any).companyId,
       },
       include: { company: true },
     });
