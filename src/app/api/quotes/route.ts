@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Parse items JSON strings to arrays
-    const parsedQuotes = quotes.map(quote => ({
+    const parsedQuotes = quotes.map((quote: any) => ({
       ...quote,
       items: typeof quote.items === 'string' ? JSON.parse(quote.items) : quote.items
     }));
