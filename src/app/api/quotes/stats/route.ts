@@ -15,10 +15,10 @@ export async function GET(request: NextRequest) {
       select: { total: true, status: true }
     });
 
-    const totalValue = quotes.reduce((sum, quote) => sum + Number(quote.total || 0), 0);
+    const totalValue = quotes.reduce((sum: number, quote: any) => sum + Number(quote.total || 0), 0);
     const acceptedValue = quotes
-      .filter(q => q.status === 'accepted')
-      .reduce((sum, quote) => sum + Number(quote.total || 0), 0);
+      .filter((q: any) => q.status === 'accepted')
+      .reduce((sum: number, quote: any) => sum + Number(quote.total || 0), 0);
 
     // Calculate conversion rate
     const conversionRate = total > 0 ? (accepted / total) * 100 : 0;
