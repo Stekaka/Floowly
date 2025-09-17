@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
         email: 'john@acme.com',
         phone: '+46 70 123 4567',
         address: 'Storgatan 1, 111 22 Stockholm, Sweden',
-        tags: ["vip", "repeat"],
+        tags: JSON.stringify(["vip", "repeat"]),
         status: 'active',
       },
     });
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         email: 'jane@techsolutions.se',
         phone: '+46 70 987 6543',
         address: 'Teknikgatan 15, 412 58 Göteborg, Sweden',
-        tags: ["new", "corporate"],
+        tags: JSON.stringify(["new", "corporate"]),
         status: 'prospect',
       },
     });
