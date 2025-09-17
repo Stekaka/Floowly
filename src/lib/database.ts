@@ -86,14 +86,29 @@ const generateId = () => Math.random().toString(36).substr(2, 9);
 export const db = {
   // User operations
   user: {
-    findUnique: async (where: { email: string }) => {
-      return users.find(user => user.email === where.email) || null;
+    findUnique: async (where: any) => {
+      if (where.email) {
+        return users.find(user => user.email === where.email) || null;
+      }
+      if (where.id) {
+        return users.find(user => user.id === where.id) || null;
+      }
+      return null;
     },
-    findFirst: async (where: { email: string; companyId: string }) => {
-      return users.find(user => user.email === where.email && user.companyId === where.companyId) || null;
+    findFirst: async (where: any) => {
+      if (where.email && where.companyId) {
+        return users.find(user => user.email === where.email && user.companyId === where.companyId) || null;
+      }
+      if (where.email) {
+        return users.find(user => user.email === where.email) || null;
+      }
+      return null;
     },
-    findMany: async (where: { companyId: string }) => {
-      return users.filter(user => user.companyId === where.companyId);
+    findMany: async (where: any = {}) => {
+      if (where.companyId) {
+        return users.filter(user => user.companyId === where.companyId);
+      }
+      return users;
     },
     create: async (data: any) => {
       const user: User = {
@@ -126,8 +141,14 @@ export const db = {
 
   // Company operations
   company: {
-    findUnique: async (where: { name: string }) => {
-      return companies.find(company => company.name === where.name) || null;
+    findUnique: async (where: any) => {
+      if (where.name) {
+        return companies.find(company => company.name === where.name) || null;
+      }
+      if (where.id) {
+        return companies.find(company => company.id === where.id) || null;
+      }
+      return null;
     },
     create: async (data: any) => {
       const company: Company = {
