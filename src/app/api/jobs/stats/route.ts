@@ -15,10 +15,10 @@ export async function GET(request: NextRequest) {
       select: { quotedPrice: true, status: true }
     });
 
-    const totalValue = jobs.reduce((sum, job) => sum + Number(job.quotedPrice || 0), 0);
+    const totalValue = jobs.reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
     const completedValue = jobs
-      .filter(j => j.status === 'completed')
-      .reduce((sum, job) => sum + Number(job.quotedPrice || 0), 0);
+      .filter((j: any) => j.status === 'completed')
+      .reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
 
     return NextResponse.json({
       total,
