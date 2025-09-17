@@ -4,9 +4,21 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password, name, companyName } = await request.json();
+    console.log('=== REGISTRATION REQUEST START ===');
+    console.log('Request headers:', Object.fromEntries(request.headers.entries()));
+    
+    const body = await request.json();
+    console.log('Request body:', body);
+    
+    const { email, password, name, companyName } = body;
 
-    console.log('Registration attempt:', { email, companyName, hasPassword: !!password });
+    console.log('Parsed data:', { 
+      email, 
+      companyName, 
+      name,
+      hasPassword: !!password,
+      passwordLength: password?.length 
+    });
 
     if (!email || !password || !companyName) {
       console.log('Missing required fields:', { email: !!email, password: !!password, companyName: !!companyName });
@@ -76,9 +88,11 @@ export async function POST(request: NextRequest) {
     };
 
     console.log('Registration successful:', { userId: user.id, companyId: company.id });
+    console.log('=== REGISTRATION REQUEST SUCCESS ===');
     return NextResponse.json(result, { status: 201 });
 
   } catch (error: any) {
+    console.error('=== REGISTRATION REQUEST ERROR ===');
     console.error('Registration error details:', {
       message: error.message,
       stack: error.stack,
