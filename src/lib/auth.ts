@@ -85,8 +85,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        session.user.companyId = token.companyId as string;
-        session.user.role = token.role as string;
+        (session.user as any).companyId = token.companyId as string;
+        (session.user as any).role = token.role as string;
       }
       return session;
     },
