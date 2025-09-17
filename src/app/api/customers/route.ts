@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Parse JSON fields for compatibility
-    const parsedCustomers = customers.map(customer => ({
+    const parsedCustomers = customers.map((customer: any) => ({
       ...customer,
       address: customer.address && typeof customer.address === 'string' ? JSON.parse(customer.address) : customer.address,
       tags: customer.tags && typeof customer.tags === 'string' ? JSON.parse(customer.tags) : []
