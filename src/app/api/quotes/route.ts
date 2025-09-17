@@ -41,12 +41,8 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    // Parse items JSON strings to arrays
-    // Parse items JSON strings to arrays
-    const parsedQuotes = quotes.map(quote => ({
-      ...quote,
-      items: typeof quote.items === 'string' ? JSON.parse(quote.items) : quote.items
-    }));
+    // PostgreSQL handles Json natively
+    const parsedQuotes = quotes;
 
     return NextResponse.json(parsedQuotes);
   } catch (error) {
@@ -84,10 +80,10 @@ export async function POST(request: NextRequest) {
         customerId,
         title,
         description,
-        items: JSON.stringify(items),
-        subtotal,
-        taxAmount,
-        total,
+        items,
+        subtotal: parseFloat(subtotal),
+        taxAmount: parseFloat(taxAmount),
+        total: parseFloat(total),
         status,
         hours: hours ? parseFloat(hours) : null,
         materialCost: materialCost ? parseFloat(materialCost) : null,
@@ -148,10 +144,10 @@ export async function PUT(request: NextRequest) {
       const taxAmount = items.reduce((sum: number, item: any) => sum + (item.quantity * item.unitPrice * item.taxRate / 100), 0);
       const total = subtotal + taxAmount;
       
-      updateData.items = JSON.stringify(items);
-      updateData.subtotal = subtotal;
-      updateData.taxAmount = taxAmount;
-      updateData.total = total;
+      updateData.items = items;
+      updateData.subtotal = parseFloat(subtotal.toString());
+      updateData.taxAmount = parseFloat(taxAmount.toString());
+      updateData.total = parseFloat(total.toString());
       updateData.profitEstimate = (subtotal + (updateData.materialCost || 0)) * (updateData.markupPercentage || 0) / 100;
     }
 

@@ -33,8 +33,8 @@ export async function GET(
       return NextResponse.json({ error: 'Quote not found' }, { status: 404 });
     }
 
-    // Parse items if it's a JSON string (SQLite compatibility)
-    const items = typeof quote.items === 'string' ? JSON.parse(quote.items) : quote.items;
+    // PostgreSQL handles Json natively
+    const items = quote.items;
 
     if (format === 'csv') {
       return generateCSV(quote, items);
