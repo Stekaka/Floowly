@@ -62,8 +62,12 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    // PostgreSQL handles Json and String[] natively
-    const parsedCustomers = customers;
+    // Parse JSON fields for compatibility
+    const parsedCustomers = customers.map(customer => ({
+      ...customer,
+      address: customer.address && typeof customer.address === 'string' ? JSON.parse(customer.address) : customer.address,
+      tags: customer.tags && typeof customer.tags === 'string' ? JSON.parse(customer.tags) : []
+    }));
 
     return NextResponse.json(parsedCustomers);
   } catch (error) {
@@ -94,8 +98,8 @@ export async function POST(request: NextRequest) {
         company,
         email,
         phone,
-        address: address || undefined,
-        tags: tags || [],
+        address: address ? JSON.stringify(address) : null,
+        tags: JSON.stringify(tags || []),
         status,
       },
       include: {
@@ -104,8 +108,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // PostgreSQL handles Json and String[] natively
-    const parsedCustomer = newCustomer;
+    // Parse JSON fields for compatibility
+    const parsedCustomer = {
+      ...newCustomer,
+      address: newCustomer.address && typeof newCustomer.address === 'string' ? JSON.parse(newCustomer.address) : newCustomer.address,
+      tags: newCustomer.tags && typeof newCustomer.tags === 'string' ? JSON.parse(newCustomer.tags) : []
+    };
 
     return NextResponse.json(parsedCustomer, { status: 201 });
   } catch (error) {
@@ -136,8 +144,8 @@ export async function PUT(request: NextRequest) {
     if (company !== undefined) updateData.company = company;
     if (email !== undefined) updateData.email = email;
     if (phone !== undefined) updateData.phone = phone;
-    if (address !== undefined) updateData.address = address || undefined;
-    if (tags !== undefined) updateData.tags = tags;
+    if (address !== undefined) updateData.address = address ? JSON.stringify(address) : null;
+    if (tags !== undefined) updateData.tags = JSON.stringify(tags);
     if (status !== undefined) updateData.status = status;
 
     const updatedCustomer = await prisma.customer.update({
@@ -149,8 +157,12 @@ export async function PUT(request: NextRequest) {
       },
     });
 
-    // PostgreSQL handles Json and String[] natively
-    const parsedCustomer = updatedCustomer;
+    // Parse JSON fields for compatibility
+    const parsedCustomer = {
+      ...updatedCustomer,
+      address: updatedCustomer.address && typeof updatedCustomer.address === 'string' ? JSON.parse(updatedCustomer.address) : updatedCustomer.address,
+      tags: updatedCustomer.tags && typeof updatedCustomer.tags === 'string' ? JSON.parse(updatedCustomer.tags) : []
+    };
 
     return NextResponse.json(parsedCustomer);
   } catch (error: any) {

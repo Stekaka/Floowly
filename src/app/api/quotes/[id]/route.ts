@@ -32,8 +32,11 @@ export async function GET(
       return NextResponse.json({ error: 'Quote not found' }, { status: 404 });
     }
 
-    // PostgreSQL handles Json natively
-    const parsedQuote = quote;
+    // Parse items JSON string to array
+    const parsedQuote = {
+      ...quote,
+      items: typeof quote.items === 'string' ? JSON.parse(quote.items) : quote.items
+    };
 
     return NextResponse.json(parsedQuote);
   } catch (error: any) {
@@ -58,8 +61,10 @@ export async function PUT(
     // Remove id from updateData if present
     delete updateData.id;
 
-    // PostgreSQL handles Json natively
-    // No need to stringify items
+    // Handle items if present
+    if (updateData.items) {
+      updateData.items = JSON.stringify(updateData.items);
+    }
 
     const updatedQuote = await prisma.quote.update({
       where: { id },
@@ -77,8 +82,11 @@ export async function PUT(
       },
     });
 
-    // PostgreSQL handles Json natively
-    const parsedQuote = updatedQuote;
+    // Parse items JSON string to array
+    const parsedQuote = {
+      ...updatedQuote,
+      items: typeof updatedQuote.items === 'string' ? JSON.parse(updatedQuote.items) : updatedQuote.items
+    };
 
     return NextResponse.json(parsedQuote);
   } catch (error: any) {
