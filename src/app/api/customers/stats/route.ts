@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     const totalQuotes = quotes.length;
     const totalOrders = jobs.length;
-    const totalRevenue = jobs.reduce((sum, job) => sum + Number(job.quotedPrice || 0), 0);
+    const totalRevenue = jobs.reduce((sum: number, job: any) => sum + Number(job.quotedPrice || 0), 0);
 
     return NextResponse.json({
       total,
