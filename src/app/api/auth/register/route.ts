@@ -6,7 +6,10 @@ export async function POST(request: NextRequest) {
   try {
     const { email, password, name, companyName } = await request.json();
 
+    console.log('Registration attempt:', { email, companyName, hasPassword: !!password });
+
     if (!email || !password || !companyName) {
+      console.log('Missing required fields:', { email: !!email, password: !!password, companyName: !!companyName });
       return NextResponse.json({ error: 'Email, password, and company name are required' }, { status: 400 });
     }
 
@@ -16,6 +19,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
+      console.log('User already exists:', email);
       return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
@@ -25,24 +29,29 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingCompany) {
+      console.log('Company already exists:', companyName);
       return NextResponse.json({ error: 'Company already exists' }, { status: 400 });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
+    console.log('Password hashed successfully');
 
-    // Create company and user in a transaction
-    const result = await prisma.$transaction(async (tx: any) => {
-      // Create company
-      const company = await tx.company.create({
+    // Create company and user
+    let company, user;
+
+    try {
+      // Create company first
+      company = await prisma.company.create({
         data: {
           name: companyName,
           domain: email.split('@')[1], // Extract domain from email
         },
       });
+      console.log('Company created:', company.id);
 
       // Create user as company admin
-      const user = await tx.user.create({
+      user = await prisma.user.create({
         data: {
           email,
           password: hashedPassword,
@@ -51,19 +60,44 @@ export async function POST(request: NextRequest) {
           companyId: company.id,
         },
       });
+      console.log('User created:', user.id);
 
-      return { user, company };
-    });
+    } catch (dbError) {
+      console.error('Database error during creation:', dbError);
+      throw dbError;
+    }
 
     // Return user without password
-    const { password: _, ...userWithoutPassword } = result.user;
-    return NextResponse.json({
+    const { password: _, ...userWithoutPassword } = user;
+    const result = {
       user: userWithoutPassword,
-      company: result.company,
+      company: company,
       message: 'Company and admin user created successfully'
-    }, { status: 201 });
-  } catch (error) {
-    console.error('Registration error:', error);
-    return NextResponse.json({ error: 'Failed to create company and user' }, { status: 500 });
+    };
+
+    console.log('Registration successful:', { userId: user.id, companyId: company.id });
+    return NextResponse.json(result, { status: 201 });
+
+  } catch (error: any) {
+    console.error('Registration error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      code: error.code
+    });
+    
+    // Return more specific error messages
+    if (error.message?.includes('Unique constraint')) {
+      return NextResponse.json({ error: 'Email or company name already exists' }, { status: 400 });
+    }
+    
+    if (error.message?.includes('Validation')) {
+      return NextResponse.json({ error: 'Invalid data provided' }, { status: 400 });
+    }
+
+    return NextResponse.json({ 
+      error: 'Failed to create company and user',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    }, { status: 500 });
   }
 }

@@ -142,6 +142,7 @@ export const db = {
       companies.push(company);
       return company;
     },
+    count: async () => companies.length,
   },
 
   // Customer operations
@@ -176,6 +177,12 @@ export const db = {
       if (index === -1) throw new Error('Customer not found');
       customers.splice(index, 1);
       return customers[index];
+    },
+    count: async (where: any = {}) => {
+      if (where.status) {
+        return customers.filter(customer => customer.status === where.status).length;
+      }
+      return customers.length;
     },
   },
 
@@ -224,6 +231,12 @@ export const db = {
       quotes.splice(index, 1);
       return quotes[index];
     },
+    count: async (where: any = {}) => {
+      if (where.status) {
+        return quotes.filter(quote => quote.status === where.status).length;
+      }
+      return quotes.length;
+    },
   },
 
   // Job operations
@@ -253,6 +266,12 @@ export const db = {
       };
       jobs.push(job);
       return job;
+    },
+    count: async (where: any = {}) => {
+      if (where.status) {
+        return jobs.filter(job => job.status === where.status).length;
+      }
+      return jobs.length;
     },
   },
 
