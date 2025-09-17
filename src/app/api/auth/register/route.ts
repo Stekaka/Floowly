@@ -70,12 +70,18 @@ export async function POST(request: NextRequest) {
           name: name || null,
           role: 'admin',
           companyId: company.id,
+          status: 'active',
         },
       });
       console.log('User created:', user.id);
 
-    } catch (dbError) {
-      console.error('Database error during creation:', dbError);
+    } catch (dbError: any) {
+      console.error('Database error during creation:', {
+        message: dbError.message,
+        code: dbError.code,
+        meta: dbError.meta,
+        stack: dbError.stack
+      });
       throw dbError;
     }
 

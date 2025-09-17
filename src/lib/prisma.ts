@@ -10,11 +10,14 @@ const globalForPrisma = globalThis as unknown as {
 let prisma: PrismaClient | any;
 
 try {
-  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
-    prisma = globalForPrisma.prisma ?? new PrismaClient()
-    if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+  if (process.env.NODE_ENV === 'production') {
+    // Production: Use Prisma with PostgreSQL
+    prisma = globalForPrisma.prisma ?? new PrismaClient({
+      log: ['error', 'warn'],
+    });
+    if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
   } else {
-    // Use in-memory database for development
+    // Development: Use in-memory database
     prisma = db;
   }
 } catch (error) {

@@ -2,7 +2,7 @@
   "env": {
     "NEXTAUTH_URL": "https://floowly.vercel.app",
     "NEXTAUTH_SECRET": "iGQ2hLEDf9idQ9FmQKLlRCCNsVk1I4RWgowAGn7fjZs=",
-    "DATABASE_URL": "file:./dev.db",
+    "DATABASE_URL": "postgresql://postgres.ufsgsaytiqvdccvfhqlm:your_password@aws-0-eu-north-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1",
     "NEXT_PUBLIC_SUPABASE_URL": "https://ufsgsaytiqvdccvfhqlm.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmc2dzYXl0aXF2ZGNjdmZocWxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1NzQyNjgsImV4cCI6MjA3MzE1MDI2OH0.lZypuC-MYM7p-g_Ql-QwLoFdqRUcmLvrFdxDW-GDq6w",
     "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVmc2dzYXl0aXF2ZGNjdmZocWxtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzU3NDI2OCwiZXhwIjoyMDczMTUwMjY4fQ.lbcp2cNlwVv9MdrACzEQF5UYt--Nf5iWXVFGZlvxmWI"
