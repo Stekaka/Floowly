@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Get all users (temporarily without company restriction)
     const users = await prisma.user.findMany({
-      include: { company: true },
+      // Remove include for now since in-memory DB doesn't support it
       orderBy: { createdAt: 'desc' },
     });
 
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
         phone: phone || null,
         status: 'active',
       },
-      include: { company: true },
+      // Remove include for now since in-memory DB doesn't support it
     });
 
     return NextResponse.json(user, { status: 201 });

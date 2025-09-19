@@ -48,25 +48,7 @@ export async function GET(request: NextRequest) {
 
     const customers = await prisma.customer.findMany({
       where,
-      include: {
-        quotes: {
-          select: {
-            id: true,
-            title: true,
-            total: true,
-            status: true,
-            createdAt: true,
-          },
-        },
-        jobs: {
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            startDate: true,
-          },
-        },
-      },
+      // Remove include for now since in-memory DB doesn't support it
       orderBy: { createdAt: 'desc' },
     });
 
@@ -110,10 +92,7 @@ export async function POST(request: NextRequest) {
         tags: JSON.stringify(tags || []),
         status,
       },
-      include: {
-        quotes: true,
-        jobs: true,
-      },
+      // Remove include for now since in-memory DB doesn't support it
     });
 
     // Parse JSON fields for compatibility
@@ -159,10 +138,7 @@ export async function PUT(request: NextRequest) {
     const updatedCustomer = await prisma.customer.update({
       where: { id },
       data: updateData,
-      include: {
-        quotes: true,
-        jobs: true,
-      },
+      // Remove include for now since in-memory DB doesn't support it
     });
 
     // Parse JSON fields for compatibility
