@@ -7,9 +7,17 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user || !(session.user as any).companyId) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Debug: Log session data
+    console.log('Session data:', {
+      userId: (session.user as any).id,
+      email: session.user.email,
+      companyId: (session.user as any).companyId,
+      role: (session.user as any).role
+    });
 
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');

@@ -8,27 +8,33 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user || !(session.user as any).companyId) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Debug: Log session data
+    console.log('Users API - Session data:', {
+      userId: (session.user as any).id,
+      email: session.user.email,
+      companyId: (session.user as any).companyId,
+      role: (session.user as any).role
+    });
 
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
 
     if (email) {
-      // Get user by email (only from same company)
+      // Get user by email (temporarily without company restriction)
       const user = await prisma.user.findFirst({
         where: { 
-          email,
-          companyId: (session.user as any).companyId
+          email
         },
       });
       return NextResponse.json(user ? [user] : []);
     }
 
-    // Get all users from the same company
+    // Get all users (temporarily without company restriction)
     const users = await prisma.user.findMany({
-      where: { companyId: (session.user as any).companyId },
       include: { company: true },
       orderBy: { createdAt: 'desc' },
     });
@@ -44,7 +50,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user || !(session.user as any).companyId) {
+    if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -73,7 +79,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User with this email already exists' }, { status: 400 });
     }
 
-    // Create user in the same company as the admin
+    // Create user (temporarily without company restriction)
     const user = await prisma.user.create({
       data: {
         email,
@@ -82,7 +88,6 @@ export async function POST(request: NextRequest) {
         role: role || 'employee',
         phone: phone || null,
         status: 'active',
-        companyId: (session.user as any).companyId,
       },
       include: { company: true },
     });
