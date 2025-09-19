@@ -10,7 +10,7 @@ export default function Navbar() {
 
   if (status === 'loading') {
     return (
-      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50">
+      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -27,7 +27,7 @@ export default function Navbar() {
 
   if (!session) {
     return (
-      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50">
+      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="text-xl font-bold text-white">
@@ -54,7 +54,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50">
+    <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
@@ -66,11 +66,12 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                     pathname === item.href
                       ? 'bg-blue-600/20 text-blue-400'
                       : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                   }`}
+                  style={{ pointerEvents: 'auto' }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
@@ -103,11 +104,12 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                   pathname === item.href
                     ? 'bg-blue-600/20 text-blue-400'
                     : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                 }`}
+                style={{ pointerEvents: 'auto' }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
