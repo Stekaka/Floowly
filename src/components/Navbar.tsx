@@ -10,7 +10,7 @@ export default function Navbar() {
 
   if (status === 'loading') {
     return (
-      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
+      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]" style={{ backgroundColor: 'rgba(30, 41, 59, 0.8)' }}>
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -27,7 +27,7 @@ export default function Navbar() {
 
   if (!session) {
     return (
-      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
+      <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]" style={{ backgroundColor: 'rgba(30, 41, 59, 0.8)' }}>
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="text-xl font-bold text-white">
@@ -54,7 +54,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]">
+    <nav className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50 relative z-[60]" style={{ backgroundColor: 'rgba(30, 41, 59, 0.8)' }}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-8">
@@ -72,6 +72,10 @@ export default function Navbar() {
                       : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                   }`}
                   style={{ pointerEvents: 'auto' }}
+                  onClick={(e) => {
+                    console.log('Nav link clicked:', item.href);
+                    // Don't prevent default - let Next.js handle navigation
+                  }}
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
@@ -110,6 +114,10 @@ export default function Navbar() {
                     : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
                 }`}
                 style={{ pointerEvents: 'auto' }}
+                onClick={(e) => {
+                  console.log('Mobile nav link clicked:', item.href);
+                  // Don't prevent default - let Next.js handle navigation
+                }}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
